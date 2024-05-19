@@ -17,8 +17,11 @@ class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
-class UAbilitySystemComponent;
+class UMAbilitySystemComponent;
+class UMGameplayAbility;
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterDeathDelegate, AMPlayerCharacter*, Character);
 UCLASS(config = Game)
 class MACHINAAUTOMADUM_API AMPlayerCharacter : public ACharacter, public IAbilitySystemInterface
 {
@@ -31,10 +34,7 @@ class MACHINAAUTOMADUM_API AMPlayerCharacter : public ACharacter, public IAbilit
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent *FollowCamera;
 
-	/** Follow camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities, meta = (AllowPrivateAccess = "true"))
-	UAbilitySystemComponent *AbilitySystemComponent;
-
+	
 	/** MappingContext*/
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputMappingContext> RoamingMCMappingContext;
@@ -117,6 +117,10 @@ class MACHINAAUTOMADUM_API AMPlayerCharacter : public ACharacter, public IAbilit
 
 
 public:
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Abilities, meta = (AllowPrivateAccess = "true"))
+	UMAbilitySystemComponent *AbilitySystemComponent;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	float DashDistance = 1000.0f;
 
@@ -154,17 +158,15 @@ public:
 	// overriden from IAbilitySystemInterface
 	UAbilitySystemComponent *GetAbilitySystemComponent() const override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attrbutes")
-	int MaxHealth = 100;
+	UPROPERTY(BlueprintAssignable, Category = "Death")
+	FCharacterDeathDelegate OnCharacterDeath;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Player Info")
+	FText CharacterName;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attrbutes")
-	int MaxEnergy = 100;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attrbutes")
-	int MaxArmor = 100;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attrbutes")
-	int Level = 1;
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -203,31 +205,6 @@ protected:
 	bool WallLineTrace(FHitResult &Hit);
 
 
-	//Combat Related
-
-	void UseAbility1();
-	void UseAbility2();
-	void UseUltimate();
-
-	void StartPrimaryAttack();
-	void StopPrimaryAttack();
-
-	void UsePokeAttack(); 
-
-	void UseTaunt();
-
-	void LockOnTarget();
-	void DeselectTarget();
-
-	void StartBlocking();
-	void EndBlocking();
-
-	void TargetLiftOff();
-
-	void SwitchRangeMelee();
-
-	void TryResetCamera();
-
 
 protected:
 	// APawn interface
@@ -246,6 +223,7 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent *GetFollowCamera() const { return FollowCamera; }
 
+	/** Ability System Set up */
 	virtual void PossessedBy(AController *NewController) override;
 	virtual void OnRep_PlayerState() override;
 	virtual void InitializeAttributes();
@@ -254,31 +232,86 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Ability", meta = (AllowPrivateAccess = "true"))
 	const class UMAttributeSet* AttributeSet;
 
+	/**Set up initial values for attributes*/
 	UPROPERTY(BlueprintReadOnly, Category = "Abilities")
 	TSubclassOf<class UGameplayEffect> DefaultAttributeEffect;
 
+	/**Start up effects (cosmetics)*/
 	UPROPERTY(BlueprintReadOnly, Category = "Abilities")
-	TArray<TSubclassOf<class UGameplayAbility>> DefaultAbilities;
+	TArray<TSubclassOf<class UGameplayEffect>> StartupEffects;
 
+	/**Default set of abilities given to all characters*/
+	UPROPERTY(BlueprintReadOnly, Category = "Abilities")
+	TArray<TSubclassOf<class UMGameplayAbility>> DefaultAbilities;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Abilities")
+	TArray<TSubclassOf<class UMGameplayAbility>> CharacterAbilities;
+
+	/**Character Dependent Ability Bindings */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "AbilitySystem", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UPlayerGameplayAbilitiesDataAsset> PlayerGameplayAbilitiesDataAsset;
 
-	
-	int32 InputID = 0;
+	int32 InputID = 1;
 
 	void InitAbilitySystem();
 
-	void OnAbilitySystemInputPressed();
-	void OnAbilitySystemInputReleased();
+	void OnAbilitySystemInputPressed(const FInputActionValue& Value, int32 CurrentInputID);
+	void OnAbilitySystemInputReleased(const FInputActionValue& Value, int32 CurrentInputID);
 
 	void BindInputToAbilities(UEnhancedInputComponent* EnhancedInputComponent);
 
+    int32 GetAbilityLevel(int32 AbilityInputID) const;
+
+	virtual void RemoveCharacterAbilities();
+
+	virtual void AddStartupEffects();
+
+	/* Death Related Logic */
+
+	void Die();
+
+	UFUNCTION(BlueprintCallable, Category = "Death")
+	virtual void FinishDying();
+
+	FGameplayTag DeathTag;
+	FGameplayTag EffectRemoveOnDeathTag;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Death")
+	UAnimMontage* DeathMontage;
+
+	
+	UFUNCTION(BlueprintCallable, Category = "Death")
+	bool IsAlive() const;
+
+	/*Attributes Getters*/
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	float GetHealth() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	float GetMaxHealth() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	float GetArmor() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	float GetMaxArmor() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	float GetEnergy() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	float GetMaxEnergy() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	float GetCharacterLevel() const;
+
+	/** Inventory System */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory System")
    class UInventorySystem* InventorySystem;
 
    UFUNCTION(BlueprintCallable, Category = "Inventory")
 	void UseItem(class UItem* Item);
-
 
 	FORCEINLINE UPlayerGameplayAbilitiesDataAsset* GetPlayerGameplayAbilitiesDataAsset() const { return PlayerGameplayAbilitiesDataAsset; }
 

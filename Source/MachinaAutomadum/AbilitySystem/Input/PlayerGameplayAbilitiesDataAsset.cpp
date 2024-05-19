@@ -2,6 +2,7 @@
 
 
 #include "PlayerGameplayAbilitiesDataAsset.h"
+#include "../Abilities/MGameplayAbility.h"
 
 UPlayerGameplayAbilitiesDataAsset::UPlayerGameplayAbilitiesDataAsset(const FObjectInitializer& ObjectInitializer)
 : Super(ObjectInitializer)

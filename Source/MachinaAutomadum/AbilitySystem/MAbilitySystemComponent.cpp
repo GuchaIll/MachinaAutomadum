@@ -8,3 +8,8 @@ UMAbilitySystemComponent::UMAbilitySystemComponent(const FObjectInitializer &Obj
 : Super(ObjectInitializer)
 {
 }
+
+void UMAbilitySystemComponent::ReceiveDamage(AActor *SourceActor, float UnmitigatedDamage, float MitigatedDamage)
+{
+    ReceivedDamageDelegate.Broadcast(this, UnmitigatedDamage, MitigatedDamage);
+}

@@ -15,14 +15,24 @@ UGA_Dash::UGA_Dash()
     DashDistance = 1000.0f;
     DashSpeed = 1000.0f;
     DashCooldown = 2.0f;
+   
+
+    FGameplayTag ImmunityTag = FGameplayTag::RequestGameplayTag(FName("State.Immunity"));
+    FGameplayTag AbilityTag = FGameplayTag::RequestGameplayTag(FName("Ability.Skill.Dash"));
+    AbilityTags.AddTag(AbilityTag);        
+    ActivationOwnedTags.AddTag(ImmunityTag);
+
+     ActivationBlockedTags.AddTag(FGameplayTag::RequestGameplayTag(FName("Ability.Skill")));
 }
 
 void UGA_Dash::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
+    if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, TEXT("Dash Activated"));
     Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 
     if (CommitAbility(Handle, ActorInfo, ActivationInfo))
     {
+        
         // Get the owning character
         AMPlayerCharacter* Character = Cast<AMPlayerCharacter>(ActorInfo->AvatarActor.Get());
         if (Character)
@@ -44,6 +54,13 @@ void UGA_Dash::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FG
 
                 // Set the character's velocity to the dash speed
                 CharacterMovement->Velocity = ForwardVector * DashSpeed;
+
+                if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, CharacterMovement->Velocity.ToString());
+
+
+               
+                EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, true, true);
+
 
                 // Set the cooldown
                 //SetCooldown(Handle, ActorInfo, ActivationInfo, this, DashCooldown);

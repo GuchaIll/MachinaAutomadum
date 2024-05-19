@@ -17,6 +17,8 @@
 #include "../InventorySystem/InventorySystem.h"
 #include "AbilitySystemComponent.h"
 #include "../AbilitySystem/Attributes/MAttributeSet.h"
+#include "../AbilitySystem/MAbilitySystemComponent.h"
+#include "../AbilitySystem/Abilities/MGameplayAbility.h"
 
 
 #include "GameplayEffectTypes.h"
@@ -65,7 +67,7 @@ AMPlayerCharacter::AMPlayerCharacter()
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 
 	// Create Ability System Component
-	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	AbilitySystemComponent = CreateDefaultSubobject<UMAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 
@@ -73,6 +75,9 @@ AMPlayerCharacter::AMPlayerCharacter()
 
 	InventorySystem = CreateDefaultSubobject<UInventorySystem>(TEXT("InventorySystem"));
 	InventorySystem->Capacity = 20;
+
+	DeathTag = FGameplayTag::RequestGameplayTag(FName("State.Dead"));
+	EffectRemoveOnDeathTag = FGameplayTag::RequestGameplayTag(FName("Effect.RemoveOnDeath"));
 
 }
 
@@ -85,6 +90,10 @@ void AMPlayerCharacter::BeginPlay()
 	if(IsValid(AbilitySystemComponent))
 	{
 		AttributeSet = AbilitySystemComponent->GetSet<UMAttributeSet>();
+		if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Attribute Set is valid"));
+	}
+	else{
+		if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Attribute Set is not valid"));
 	}
 }
 
@@ -117,44 +126,7 @@ void AMPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 		// Dash
 		EnhancedInputComponent->BindAction(DashAction, ETriggerEvent::Triggered, this, &AMPlayerCharacter::Dash);
-	
-		// Abilities
-		EnhancedInputComponent->BindAction(Ability1Action, ETriggerEvent::Triggered, this, &AMPlayerCharacter::UseAbility1);
-		EnhancedInputComponent->BindAction(Ability2Action, ETriggerEvent::Triggered, this, &AMPlayerCharacter::UseAbility2);
-		EnhancedInputComponent->BindAction(UltimateAction, ETriggerEvent::Triggered, this, &AMPlayerCharacter::UseUltimate);
 
-		// Primary Attack
-		EnhancedInputComponent->BindAction(PrimaryAttackAction, ETriggerEvent::Triggered, this, &AMPlayerCharacter::StartPrimaryAttack);
-		EnhancedInputComponent->BindAction(PrimaryAttackAction, ETriggerEvent::Completed, this, &AMPlayerCharacter::StopPrimaryAttack);
-
-		//Lock Target
-		EnhancedInputComponent->BindAction(LockOnTargetAction, ETriggerEvent::Triggered, this, &AMPlayerCharacter::LockOnTarget);
-		EnhancedInputComponent->BindAction(DeselectTargetAction, ETriggerEvent::Triggered, this, &AMPlayerCharacter::DeselectTarget);
-
-		//Block
-		EnhancedInputComponent->BindAction(BlockAction, ETriggerEvent::Triggered, this, &AMPlayerCharacter::StartBlocking);
-		EnhancedInputComponent->BindAction(BlockAction, ETriggerEvent::Completed, this, &AMPlayerCharacter::EndBlocking);
-
-		//Lift Off
-		EnhancedInputComponent->BindAction(LiftOffAction, ETriggerEvent::Triggered, this, &AMPlayerCharacter::TargetLiftOff);
-
-		//RangeMeleeSwitch
-		EnhancedInputComponent->BindAction(RangeMeleeSwitchAction, ETriggerEvent::Triggered, this, &AMPlayerCharacter::SwitchRangeMelee);
-
-		//Poke
-		EnhancedInputComponent->BindAction(PokeAction, ETriggerEvent::Triggered, this, &AMPlayerCharacter::UsePokeAttack);
-
-		//Taunt
-		EnhancedInputComponent->BindAction(TauntAction, ETriggerEvent::Triggered, this, &AMPlayerCharacter::UseTaunt);
-
-		//Reset Camera
-		EnhancedInputComponent->BindAction(ResetCameraAction, ETriggerEvent::Triggered, this, &AMPlayerCharacter::TryResetCamera);
-
-		//Menu
-		EnhancedInputComponent->BindAction(MenuAction, ETriggerEvent::Triggered, this, &AMPlayerCharacter::OpenCloseMenu);
-
-		//Interact
-		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &AMPlayerCharacter::Interact);
 
 		BindInputToAbilities(EnhancedInputComponent);
 	}
@@ -269,24 +241,24 @@ void AMPlayerCharacter::StopSprinting()
 
 void AMPlayerCharacter::Dash()
 {
-	if(!bIsDashing)
-	{
+	//if(!bIsDashing)
+	//{
 	
-		bIsDashing = true;
-		//Calculate the dash offset
-		FVector DashOffset = GetActorForwardVector() * DashDistance;
+	//	bIsDashing = true;
+	//	//Calculate the dash offset
+		//FVector DashOffset = GetActorForwardVector() * DashDistance;
+//
+	//	AddActorWorldOffset(DashOffset, true, nullptr, ETeleportType::TeleportPhysics);
 
-		AddActorWorldOffset(DashOffset, true, nullptr, ETeleportType::TeleportPhysics);
-
-		GetWorldTimerManager().SetTimer(DashTimerHandle, this, &AMPlayerCharacter::StopDashing, 1.0f, false);
+	//	GetWorldTimerManager().SetTimer(DashTimerHandle, this, &AMPlayerCharacter::StopDashing, 1.0f, false);
 		
-	}
+	//}
 }
 
 void AMPlayerCharacter::StopDashing()
 {
-	bIsDashing = false;
-	GetCharacterMovement()->MaxWalkSpeed = 500.f;
+	//bIsDashing = false;
+	//GetCharacterMovement()->MaxWalkSpeed = 500.f;
 }
 
 void AMPlayerCharacter::Jump()
@@ -360,149 +332,7 @@ void AMPlayerCharacter::StopClimb()
 	
 }
 
-/** Ability Related Implementations*/
 
-void AMPlayerCharacter::UseAbility1()
-{
-    //UE_LOG(LogTemp, Warning, TEXT("Ability 1 Used"));
-
-    //if (GEngine)
-    //{
-       // GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Ability 1 Used"));
-   // }
-}
-
-void AMPlayerCharacter::UseAbility2()
-{
-    //UE_LOG(LogTemp, Warning, TEXT("Ability 1 Used"));
-
-    //if (GEngine)
-   // {
-       // GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, TEXT("Ability 2 Used"));
-
-
-    //}
-}
-
-void AMPlayerCharacter::UseUltimate()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("Ultimate Used"));
-
-	//if (GEngine)
-	//{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Ultimate Used"));
-	//}
-}
-
-void AMPlayerCharacter::StartPrimaryAttack()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("Primary Attack Started"));
-
-	//if (GEngine)
-	//{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Primary Attack Started"));
-	//}
-}
-
-void AMPlayerCharacter::StopPrimaryAttack()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("Primary Attack Stopped"));
-
-	//if (GEngine)
-	//{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Primary Attack Stopped"));
-	//}
-}
-
-void AMPlayerCharacter::UsePokeAttack()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("Poke Attack Used"));
-
-	//if (GEngine)
-	//{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Poke Attack Used"));
-	//}
-}
-
-void AMPlayerCharacter::UseTaunt()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("Taunt Used"));
-
-	//if (GEngine)
-	//{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Taunt Used"));
-	//}
-}
-
-void AMPlayerCharacter::LockOnTarget()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("Target Locked"));
-
-	//if (GEngine)
-	//{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Target Locked"));
-	//}
-}
-
-void AMPlayerCharacter::DeselectTarget()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("Target Deselected"));
-
-	//if (GEngine)
-	//{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Target Deselected"));
-	//}
-}
-
-void AMPlayerCharacter::StartBlocking()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Blocking Started"));
-
-	//if (GEngine)
-	//{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, TEXT("Blocking Started"));
-	//}
-}
-
-void AMPlayerCharacter::EndBlocking()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("Blocking Ended"));
-
-	//if (GEngine)
-	//{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, TEXT("Blocking Ended"));
-	//}
-}
-
-void AMPlayerCharacter::TargetLiftOff()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("Target Lifted Off"));
-
-	//if (GEngine)
-	//{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Magenta, TEXT("Target Lifted Off"));
-	//}
-}
-
-void AMPlayerCharacter::SwitchRangeMelee()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("Switched Range/Melee"));
-
-	//if (GEngine)
-	//{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Switched Range/Melee"));
-	//}
-}
-
-void AMPlayerCharacter::TryResetCamera()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("Camera Reset"));
-
-	//if (GEngine)
-	//{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("Camera Reset"));
-	//}
-}
 
 bool AMPlayerCharacter::LineTrace(FHitResult& Hit, float Distance)
 {
@@ -573,7 +403,7 @@ void AMPlayerCharacter::PossessedBy(AController* NewController)
 	}
 
 	InitializeAttributes();
-	GiveDefaultAbilities();
+	//GiveDefaultAbilities();
 
 }
 
@@ -591,16 +421,22 @@ void AMPlayerCharacter::OnRep_PlayerState()
 
 void AMPlayerCharacter::InitializeAttributes()
 {
-	if (AbilitySystemComponent && DefaultAttributeEffect)
+	if (AbilitySystemComponent && DefaultAttributeEffect) 
 	{
 		FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
 		EffectContext.AddSourceObject(this);
 
-		FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(DefaultAttributeEffect, 1, EffectContext);
+		FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(DefaultAttributeEffect, GetCharacterLevel(), EffectContext);
 		
 		if (NewHandle.IsValid())
 		{
 			FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*NewHandle.Data.Get());
+		}
+	}
+	else{
+		if(GEngine)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Unable to initialize attributes"));
 		}
 	}
 }
@@ -609,7 +445,7 @@ void AMPlayerCharacter::GiveDefaultAbilities()
 {
 	if (HasAuthority() && AbilitySystemComponent)
 	{
-		for (TSubclassOf<UGameplayAbility> & StartupAbility : DefaultAbilities)
+		for (TSubclassOf<UMGameplayAbility> & StartupAbility : DefaultAbilities)
 		{
 			AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(StartupAbility.GetDefaultObject(), 1, 0));
 		}
@@ -630,26 +466,32 @@ void AMPlayerCharacter::InitAbilitySystem()
 			{
 				const FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(It.GameplayAbilityClass, AbilityLevel, It.InputID);
     			AbilitySystemComponent->GiveAbility(AbilitySpec);
+				CharacterAbilities.Add(AbilitySpec.Ability->GetClass());
 			}
 		}
 	}
 
 }
 
-void AMPlayerCharacter::OnAbilitySystemInputPressed()
+void AMPlayerCharacter::OnAbilitySystemInputPressed(const FInputActionValue& Value, int32 CurrentInputID)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Ability System Input Pressed"));
+	
+	FString debugMessage = FString::Printf(TEXT("Ability System Input Pressed: %f"), CurrentInputID);
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, debugMessage );
 	if (AbilitySystemComponent)
 	{
-		AbilitySystemComponent->AbilityLocalInputPressed(InputID);
+		AbilitySystemComponent->AbilityLocalInputPressed(CurrentInputID);
 	}
 }
 
-void AMPlayerCharacter::OnAbilitySystemInputReleased()
+void AMPlayerCharacter::OnAbilitySystemInputReleased(const FInputActionValue& Value, int32 CurrentInputID)
 {
+	
+	FString debugMessage = FString::Printf(TEXT("Ability System Input Released: %f"), CurrentInputID);
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, debugMessage );
 	if (AbilitySystemComponent)
 	{
-		AbilitySystemComponent->AbilityLocalInputReleased(InputID);
+		AbilitySystemComponent->AbilityLocalInputReleased(CurrentInputID);
 	}
 }
 
@@ -658,19 +500,105 @@ void AMPlayerCharacter::BindInputToAbilities(UEnhancedInputComponent *EnhancedIn
 	if (PlayerGameplayAbilitiesDataAsset)
 	{
 		const TSet<FGameplayInputAbilityInfo>& InputAbilities = PlayerGameplayAbilitiesDataAsset->GetInputAbilities();
+		if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, *FString::Printf(TEXT("Input Abilities: %d"), InputAbilities.Num()));
 		for (const auto& It : InputAbilities)
 		{
 			const UInputAction* InputAction = It.InputAction;
-			InputID = It.InputID;
-
-			   EnhancedInputComponent->BindAction(InputAction, ETriggerEvent::Started, this, &AMPlayerCharacter::OnAbilitySystemInputPressed);
-     		   EnhancedInputComponent->BindAction(InputAction, ETriggerEvent::Completed, this, &AMPlayerCharacter::OnAbilitySystemInputReleased);
+			const int32 CurrentInputID = It.InputID;
+				
+				
+			   EnhancedInputComponent->BindAction(InputAction, ETriggerEvent::Started, this, &AMPlayerCharacter::OnAbilitySystemInputPressed, CurrentInputID);
+     		   EnhancedInputComponent->BindAction(InputAction, ETriggerEvent::Completed, this, &AMPlayerCharacter::OnAbilitySystemInputReleased, CurrentInputID);
 		}
 		
 
 	}
 }
 
+int32 AMPlayerCharacter::GetAbilityLevel(int32 AbilityInputID) const
+{
+    return 1;
+}
+
+void AMPlayerCharacter::RemoveCharacterAbilities()
+{
+	if (GetLocalRole() != ROLE_Authority || AbilitySystemComponent!=nullptr || !AbilitySystemComponent->bCharacterAbilitiesGiven)
+	{
+		return;
+	}
+
+	TArray<FGameplayAbilitySpecHandle> AbilitiesToRemove;
+	for (const FGameplayAbilitySpec& Spec : AbilitySystemComponent->GetActivatableAbilities())
+	{
+		if((Spec.SourceObject == this) && CharacterAbilities.Contains(Spec.Ability->GetClass()))
+		{
+			AbilitiesToRemove.Add(Spec.Handle); //add to character abilities and remove them 
+		}
+	}
+
+	for (int32 i = 0; i < AbilitiesToRemove.Num(); i++)
+	{
+		AbilitySystemComponent->ClearAbility(AbilitiesToRemove[i]);
+	}
+
+	AbilitySystemComponent->bCharacterAbilitiesGiven = false;
+	
+
+}
+
+void AMPlayerCharacter::AddStartupEffects()
+{
+	if (GetLocalRole() != ROLE_Authority || AbilitySystemComponent == nullptr)
+	{
+		return;
+	}
+
+	FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
+	EffectContext.AddSourceObject(this);
+	for (const TSubclassOf<UGameplayEffect>& StartupEffect : StartupEffects)
+	{
+
+		FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(StartupEffect, GetCharacterLevel(), EffectContext);
+		if (NewHandle.IsValid())
+		{
+			FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*NewHandle.Data.Get());
+		}
+	}
+
+	AbilitySystemComponent->bStartupEffectsApplied = true;
+}
+
+void AMPlayerCharacter::Die()
+{
+	RemoveCharacterAbilities();
+
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetCharacterMovement()->GravityScale = 0.0f;
+	GetCharacterMovement()->Velocity = FVector(0.0f, 0.0f, 0.0f);
+
+	OnCharacterDeath.Broadcast(this);
+
+	if(AbilitySystemComponent != nullptr)
+	{
+		AbilitySystemComponent->CancelAbilities();
+		FGameplayTagContainer EffectsTagsToRemove;
+		EffectsTagsToRemove.AddTag(EffectRemoveOnDeathTag);
+		int32 NumEffectsRemoved = AbilitySystemComponent->RemoveActiveEffectsWithTags(EffectsTagsToRemove);
+		AbilitySystemComponent->AddLooseGameplayTag(DeathTag);
+	}
+
+	if(DeathMontage){
+		PlayAnimMontage(DeathMontage);
+	}
+	else{
+		FinishDying();
+	}
+}
+
+void AMPlayerCharacter::FinishDying()
+{
+	Destroy();
+}
 
 void AMPlayerCharacter::UseItem(class UItem* Item)
 {
@@ -679,4 +607,80 @@ void AMPlayerCharacter::UseItem(class UItem* Item)
 		Item->UseItem(this);
 		InventorySystem->RemoveItem(Item, 1);
 	}
+}
+
+bool AMPlayerCharacter::IsAlive() const
+{
+    return GetHealth() > 0.0f;
+}
+
+float AMPlayerCharacter::GetHealth() const
+{
+	if (AttributeSet)
+	{
+		return AttributeSet->GetHealth();
+	}
+
+	return 0.0f;
+}
+
+float AMPlayerCharacter::GetMaxHealth() const
+{
+   if(AttributeSet)
+   {
+	   return AttributeSet->GetMaxHealth();
+   }
+
+   return 0.0f;
+}
+
+float AMPlayerCharacter::GetArmor() const
+{
+    if(AttributeSet)
+	{
+		return AttributeSet->GetArmor();
+	}
+
+	return 0.0f;
+}
+
+float AMPlayerCharacter::GetMaxArmor() const
+{
+    if(AttributeSet)
+	{
+		return AttributeSet->GetMaxArmor();
+	}
+
+	return 0.0f;
+}
+
+float AMPlayerCharacter::GetEnergy() const
+{
+    if(AttributeSet)
+	{
+		return AttributeSet->GetEnergy();
+	
+	}
+
+	return 0.0f;
+}
+
+float AMPlayerCharacter::GetMaxEnergy() const
+{
+    if(AttributeSet)
+	{
+		return AttributeSet->GetMaxEnergy();
+	}
+
+	return 0.0f;
+}
+
+float AMPlayerCharacter::GetCharacterLevel() const
+{
+    if(AttributeSet)
+	{
+		return AttributeSet->GetLevel();
+	}
+
+	return 0.0f;
 }

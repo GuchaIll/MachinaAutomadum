@@ -12,13 +12,14 @@
  */
 
 class UInputAction;
+class UMGameplayAbility;
 
 USTRUCT()
 struct FGameplayInputAbilityInfo
 {
 	GENERATED_USTRUCT_BODY()
 	UPROPERTY(EditAnywhere, Category = "GameplayInputAbilityInfo" )
-	TSubclassOf<UGameplayAbility> GameplayAbilityClass;
+	TSubclassOf<UMGameplayAbility> GameplayAbilityClass;
 
 	UPROPERTY(EditAnywhere, Category = "GameplayInputAbilityInfo")
 	TObjectPtr<UInputAction> InputAction;

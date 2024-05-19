@@ -16,6 +16,7 @@ struct FGameplayAbilityTargetDataHandle;
 /**
  * 
  */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FReceivedDamageDelegate, UMAbilitySystemComponent*, SourceASC, float, UnmitigatedDamage, float, MitigatedDamage);
 UCLASS()
 class MACHINAAUTOMADUM_API UMAbilitySystemComponent : public UAbilitySystemComponent
 {
@@ -23,4 +24,11 @@ class MACHINAAUTOMADUM_API UMAbilitySystemComponent : public UAbilitySystemCompo
 	public:
 
 	UMAbilitySystemComponent(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
+
+	bool bCharacterAbilitiesGiven = false;
+	bool bStartupEffectsApplied = false;
+
+	FReceivedDamageDelegate ReceivedDamageDelegate;
+
+	virtual void ReceiveDamage(AActor* SourceActor, float UnmitigatedDamage, float MitigatedDamage);
 };

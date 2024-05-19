@@ -12,9 +12,8 @@
 UGA_ProjectilePoke::UGA_ProjectilePoke()
 {
     //InstancingPolicy = EGameplayAbilitInstancingPolicy::InstancedPerActor;
-    GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Ability called"));
 
-    FGameplayTag AbilityTag = FGameplayTag::RequestGameplayTag(FName("Ability.Poke.Projectile"));
+    FGameplayTag AbilityTag = FGameplayTag::RequestGameplayTag(FName("Ability.Skill.Poke.Projectile"));
     AbilityTags.AddTag(AbilityTag);
     ActivationOwnedTags.AddTag(AbilityTag);
 
@@ -28,7 +27,7 @@ UGA_ProjectilePoke::UGA_ProjectilePoke()
 void UGA_ProjectilePoke::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo *ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData *TriggerEventData)
 {
 
-      GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, TEXT("Activate called"));
+      if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, TEXT("Projectile Poke called"));
 
     if(!CommitAbility(Handle, ActorInfo, ActivationInfo))
     {
