@@ -5,11 +5,14 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "GameplayTagContainer.h"
-#include <GameplayEffectTypes.h>
+#include "GameplayEffectTypes.h"
 #include "AbilitySystemInterface.h"
 #include "../AbilitySystem/Attributes/MAttributeSet.h"
+#include "../AbilitySystem/Abilities/MGameplayAbility.h"
 #include "../AbilitySystem/Input/PlayerGameplayAbilitiesDataAsset.h"
 #include "../InventorySystem/InventorySystem.h"
+#include "../Renders/Widgets/PlayerHUDWidget.h"
+#include "Blueprint/UserWidget.h"
 #include "MPlayerCharacter.generated.h"
 
 class USpringArmComponent;
@@ -18,8 +21,7 @@ class UInputMappingContext;
 class UInputAction;
 struct FInputActionValue;
 class UMAbilitySystemComponent;
-class UMGameplayAbility;
-
+class UMTeamManager;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterDeathDelegate, AMPlayerCharacter*, Character);
 UCLASS(config = Game)
@@ -153,6 +155,9 @@ public:
 	// Sets default values for this character's properties
 	AMPlayerCharacter();
 
+	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
+	
+
 	virtual void Tick(float DeltaTime) override;
 
 	// overriden from IAbilitySystemInterface
@@ -208,7 +213,6 @@ protected:
 
 protected:
 	// APawn interface
-	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
 	
 	void SwitchToCombatContext();
 
@@ -223,6 +227,9 @@ public:
 	/** Returns FollowCamera subobject **/
 	FORCEINLINE class UCameraComponent *GetFollowCamera() const { return FollowCamera; }
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Team", meta = (AllowPrivateAccess = "true"))
+	UMTeamManager *TeamManager;
+
 	/** Ability System Set up */
 	virtual void PossessedBy(AController *NewController) override;
 	virtual void OnRep_PlayerState() override;
@@ -233,7 +240,7 @@ public:
 	const class UMAttributeSet* AttributeSet;
 
 	/**Set up initial values for attributes*/
-	UPROPERTY(BlueprintReadOnly, Category = "Abilities")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
 	TSubclassOf<class UGameplayEffect> DefaultAttributeEffect;
 
 	/**Start up effects (cosmetics)*/
@@ -283,28 +290,31 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Death")
 	bool IsAlive() const;
 
-	/*Attributes Getters*/
+	/*Attribute Delegate*/
 
-	UFUNCTION(BlueprintCallable, Category = "Attributes")
-	float GetHealth() const;
+	virtual void OnHealthChanged(const FOnAttributeChangeData& Data);
 
-	UFUNCTION(BlueprintCallable, Category = "Attributes")
-	float GetMaxHealth() const;
+	virtual void OnMaxHealthChanged(const FOnAttributeChangeData& Data);
 
-	UFUNCTION(BlueprintCallable, Category = "Attributes")
-	float GetArmor() const;
+	virtual void OnEnergyChanged(const FOnAttributeChangeData& Data);
 
-	UFUNCTION(BlueprintCallable, Category = "Attributes")
-	float GetMaxArmor() const;
+	virtual void OnMaxEnergyChanged(const FOnAttributeChangeData& Data);
 
-	UFUNCTION(BlueprintCallable, Category = "Attributes")
-	float GetEnergy() const;
+	virtual void OnArmorChanged(const FOnAttributeChangeData& Data);
 
-	UFUNCTION(BlueprintCallable, Category = "Attributes")
-	float GetMaxEnergy() const;
+	virtual void OnMaxArmorChanged(const FOnAttributeChangeData& Data);
 
-	UFUNCTION(BlueprintCallable, Category = "Attributes")
-	float GetCharacterLevel() const;
+	virtual void OnLevelChanged(const FOnAttributeChangeData& Data);
+
+	virtual void OnExperienceChanged(const FOnAttributeChangeData& Data);
+
+	int GetCharacterLevel();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
+	TSubclassOf<UUserWidget> PlayerHUDWidgetClass;
+
+	UPROPERTY()
+	UUserWidget* HudWidget;
 
 	/** Inventory System */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory System")

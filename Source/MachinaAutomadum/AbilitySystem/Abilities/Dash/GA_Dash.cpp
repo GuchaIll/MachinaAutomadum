@@ -57,7 +57,6 @@ void UGA_Dash::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FG
 
                 if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, CharacterMovement->Velocity.ToString());
 
-
                
                 EndAbility(CurrentSpecHandle, CurrentActorInfo, CurrentActivationInfo, true, true);
 

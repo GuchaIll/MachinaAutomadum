@@ -19,7 +19,9 @@
 #include "../AbilitySystem/Attributes/MAttributeSet.h"
 #include "../AbilitySystem/MAbilitySystemComponent.h"
 #include "../AbilitySystem/Abilities/MGameplayAbility.h"
-
+#include "MTeamManager.h"
+#include "Blueprint/UserWidget.h"
+#include "../Renders/Widgets/PlayerHUDWidget.h"
 
 #include "GameplayEffectTypes.h"
 
@@ -79,7 +81,21 @@ AMPlayerCharacter::AMPlayerCharacter()
 	DeathTag = FGameplayTag::RequestGameplayTag(FName("State.Dead"));
 	EffectRemoveOnDeathTag = FGameplayTag::RequestGameplayTag(FName("Effect.RemoveOnDeath"));
 
-}
+	TeamManager = CreateDefaultSubobject<UMTeamManager>(TEXT("TeamManager"));
+	if(TeamManager) TeamManager->CurrentCharacter = this;
+
+	//Bind Delegates for Attributes
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetHealthAttribute()).AddUObject(this, &AMPlayerCharacter::OnHealthChanged);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetMaxHealthAttribute()).AddUObject(this, &AMPlayerCharacter::OnMaxHealthChanged);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetEnergyAttribute()).AddUObject(this, &AMPlayerCharacter::OnEnergyChanged);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetMaxEnergyAttribute()).AddUObject(this, &AMPlayerCharacter::OnMaxEnergyChanged);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetArmorAttribute()).AddUObject(this, &AMPlayerCharacter::OnArmorChanged);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetMaxArmorAttribute()).AddUObject(this, &AMPlayerCharacter::OnMaxArmorChanged);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetLevelAttribute()).AddUObject(this, &AMPlayerCharacter::OnLevelChanged);
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetExperienceAttribute()).AddUObject(this, &AMPlayerCharacter::OnExperienceChanged);
+
+	
+}	
 
 // Called when the game starts or when spawned
 void AMPlayerCharacter::BeginPlay()
@@ -94,6 +110,34 @@ void AMPlayerCharacter::BeginPlay()
 	}
 	else{
 		if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Attribute Set is not valid"));
+	}
+
+	/* Setting up Widget HUD*/
+
+	if(PlayerHUDWidgetClass != nullptr)
+	{
+		 HudWidget = CreateWidget<UUserWidget>(GetWorld(), PlayerHUDWidgetClass);
+
+		if(HudWidget != nullptr)
+		{
+			HudWidget->AddToViewport();
+			UPlayerHUDWidget *PlayerHUD = Cast<UPlayerHUDWidget>(HudWidget);
+			AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetHealthAttribute()).AddUObject(this, &AMPlayerCharacter::OnHealthChanged);
+			AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetMaxHealthAttribute()).AddUObject(this, &AMPlayerCharacter::OnMaxHealthChanged);
+			AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetEnergyAttribute()).AddUObject(this, &AMPlayerCharacter::OnEnergyChanged);
+			AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetMaxEnergyAttribute()).AddUObject(this, &AMPlayerCharacter::OnMaxEnergyChanged);
+			AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetArmorAttribute()).AddUObject(this, &AMPlayerCharacter::OnArmorChanged);
+			AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetMaxArmorAttribute()).AddUObject(this, &AMPlayerCharacter::OnMaxArmorChanged);
+			AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetLevelAttribute()).AddUObject(this, &AMPlayerCharacter::OnLevelChanged);
+			AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetExperienceAttribute()).AddUObject(this, &AMPlayerCharacter::OnExperienceChanged);
+
+			PlayerHUD->SetHealth(AttributeSet->GetHealth(), AttributeSet->GetMaxHealth());
+			PlayerHUD->SetEnergy(AttributeSet->GetEnergy(), AttributeSet->GetMaxEnergy());
+			PlayerHUD->SetArmor(AttributeSet->GetArmor(), AttributeSet->GetMaxArmor());
+			PlayerHUD->SetLevel(AttributeSet->GetLevel());
+			PlayerHUD->SetExperience(AttributeSet->GetExperience(), 500.0f);
+		}
+	
 	}
 }
 
@@ -134,6 +178,8 @@ void AMPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	{
 		
 	}
+
+	
 }
 
 void AMPlayerCharacter::SwitchToCombatContext()
@@ -402,7 +448,7 @@ void AMPlayerCharacter::PossessedBy(AController* NewController)
 
 	}
 
-	InitializeAttributes();
+	//InitializeAttributes();
 	//GiveDefaultAbilities();
 
 }
@@ -416,7 +462,7 @@ void AMPlayerCharacter::OnRep_PlayerState()
 		AbilitySystemComponent->InitAbilityActorInfo(this, this);
 	}
 
-	InitializeAttributes();
+	//InitializeAttributes();
 }
 
 void AMPlayerCharacter::InitializeAttributes()
@@ -436,7 +482,9 @@ void AMPlayerCharacter::InitializeAttributes()
 	else{
 		if(GEngine)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Unable to initialize attributes"));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Unable to initialize attributes"));
+			AttributeSet = AbilitySystemComponent->GetSet<UMAttributeSet>();
+		
 		}
 	}
 }
@@ -603,84 +651,75 @@ void AMPlayerCharacter::FinishDying()
 void AMPlayerCharacter::UseItem(class UItem* Item)
 {
 	if(Item)
+
 	{
 		Item->UseItem(this);
 		InventorySystem->RemoveItem(Item, 1);
 	}
 }
 
+
+void AMPlayerCharacter::OnHealthChanged(const FOnAttributeChangeData & Data)
+{
+
+	float Health = Data.NewValue;
+
+	
+	if (Data.NewValue <= 0.0f && !AbilitySystemComponent->HasMatchingGameplayTag(DeathTag))
+	{
+		Die();
+	}
+}
+
+void AMPlayerCharacter::OnMaxHealthChanged(const FOnAttributeChangeData & Data)
+{
+	float MaxHealth = Data.NewValue;
+
+}
+
+void AMPlayerCharacter::OnEnergyChanged(const FOnAttributeChangeData & Data)
+{
+	float Energy = Data.NewValue;
+}
+
+void AMPlayerCharacter::OnMaxEnergyChanged(const FOnAttributeChangeData & Data)
+{
+	float MaxEnergy = Data.NewValue;
+}
+
+void AMPlayerCharacter::OnArmorChanged(const FOnAttributeChangeData & Data)
+{
+	float Armor = Data.NewValue;
+}
+
+void AMPlayerCharacter::OnMaxArmorChanged(const FOnAttributeChangeData & Data)
+{
+	float MaxArmor = Data.NewValue;
+}
+
+void AMPlayerCharacter::OnLevelChanged(const FOnAttributeChangeData & Data)
+{
+	int Level = Data.NewValue;
+}
+
+void AMPlayerCharacter::OnExperienceChanged(const FOnAttributeChangeData & Data)
+{
+	float Experience = Data.NewValue;
+}
+
+int AMPlayerCharacter::GetCharacterLevel()
+{
+
+    if(AttributeSet) return AttributeSet->GetLevel();
+	else return -1.0f;
+}
+
 bool AMPlayerCharacter::IsAlive() const
 {
-    return GetHealth() > 0.0f;
-}
-
-float AMPlayerCharacter::GetHealth() const
-{
-	if (AttributeSet)
-	{
-		return AttributeSet->GetHealth();
+    if(AttributeSet) return AttributeSet->GetHealth() > 0.0f;
+	else{
+		if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Attempt to call IsAlive on null AttributeSet"));
+		return false;
 	}
-
-	return 0.0f;
 }
 
-float AMPlayerCharacter::GetMaxHealth() const
-{
-   if(AttributeSet)
-   {
-	   return AttributeSet->GetMaxHealth();
-   }
-
-   return 0.0f;
-}
-
-float AMPlayerCharacter::GetArmor() const
-{
-    if(AttributeSet)
-	{
-		return AttributeSet->GetArmor();
-	}
-
-	return 0.0f;
-}
-
-float AMPlayerCharacter::GetMaxArmor() const
-{
-    if(AttributeSet)
-	{
-		return AttributeSet->GetMaxArmor();
-	}
-
-	return 0.0f;
-}
-
-float AMPlayerCharacter::GetEnergy() const
-{
-    if(AttributeSet)
-	{
-		return AttributeSet->GetEnergy();
-	
-	}
-
-	return 0.0f;
-}
-
-float AMPlayerCharacter::GetMaxEnergy() const
-{
-    if(AttributeSet)
-	{
-		return AttributeSet->GetMaxEnergy();
-	}
-
-	return 0.0f;
-}
-
-float AMPlayerCharacter::GetCharacterLevel() const
-{
-    if(AttributeSet)
-	{
-		return AttributeSet->GetLevel();
-	}
-
-	return 0.0f;
-}
