@@ -78,6 +78,39 @@ public:
 	FGameplayAttributeData Armor;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, Armor);
 
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
+	FGameplayAttributeData Shield;
+	ATTRIBUTE_ACCESSORS(UMAttributeSet, Shield);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
+	FGameplayAttributeData MaxShield;
+	ATTRIBUTE_ACCESSORS(UMAttributeSet, MaxShield);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
+	FGameplayAttributeData ShieldStack;
+	ATTRIBUTE_ACCESSORS(UMAttributeSet, ShieldStack);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
+	FGameplayAttributeData BaseDamage;
+	ATTRIBUTE_ACCESSORS(UMAttributeSet, BaseDamage);
+
+	//Custom execution class for calculating damage multiplier
+	//At loadout and character switching
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
+	FGameplayAttributeData DamageMultiplier;
+	ATTRIBUTE_ACCESSORS(UMAttributeSet, DamageMultiplier);
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Attributes")	
+	FGameplayAttributeData BaseAttackSpeed;
+	ATTRIBUTE_ACCESSORS(UMAttributeSet, BaseAttackSpeed);
+
+	//Custom execution class for calculating total cooldown reduction
+	//At loadout and character switching
+
+	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
+	FGameplayAttributeData TotalCoolDownReduction;
+	ATTRIBUTE_ACCESSORS(UMAttributeSet, TotalCoolDownReduction);
+
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Energy, Category = "Attributes")
 	FGameplayAttributeData Energy;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, Energy);
@@ -125,6 +158,28 @@ public:
 
 	UFUNCTION()
 	virtual void OnRep_ExperienceToNextLevel(const FGameplayAttributeData& OldExperienceToNextLevel);
+
+	UFUNCTION()
+	virtual void OnRep_Shield(const FGameplayAttributeData& OldShield);
+
+	UFUNCTION()
+	virtual void OnRep_MaxShield(const FGameplayAttributeData& OldMaxShield);
+
+	UFUNCTION()
+	virtual void OnRep_ShieldStack(const FGameplayAttributeData& OldShieldStack);
+
+	UFUNCTION()
+	virtual void OnRep_BaseDamage(const FGameplayAttributeData& OldBaseDamage);
+
+	UFUNCTION()
+	virtual void OnRep_DamageMultiplier(const FGameplayAttributeData& OldDamageMultiplier);
+
+	UFUNCTION()
+	virtual void OnRep_BaseAttackSpeed(const FGameplayAttributeData& OldBaseAttackSpeed);
+
+	UFUNCTION()
+	virtual void OnRep_TotalCoolDownReduction(const FGameplayAttributeData& OldTotalCoolDownReduction);
+
 
 
   	UWorld* GetWorld() const override;

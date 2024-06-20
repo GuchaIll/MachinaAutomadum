@@ -12,6 +12,7 @@
 #include "GameFramework/Controller.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "InputActionValue.h"
 #include "DrawDebugHelpers.h"
 #include "../InventorySystem/InventorySystem.h"
@@ -22,8 +23,11 @@
 #include "MTeamManager.h"
 #include "Blueprint/UserWidget.h"
 #include "../Renders/Widgets/PlayerHUDWidget.h"
-
+#include "../Enemy/MEnemy_Base.h"
+#include "MPlayerControllerBase.h"
 #include "GameplayEffectTypes.h"
+#include "Components/SphereComponent.h"
+
 
 
 
@@ -95,6 +99,20 @@ AMPlayerCharacter::AMPlayerCharacter()
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetExperienceAttribute()).AddUObject(this, &AMPlayerCharacter::OnExperienceChanged);
 
 	
+	EnemyDetectionCollider = CreateDefaultSubobject<USphereComponent>(TEXT("Enemy Detection Collider"));
+	EnemyDetectionCollider->SetupAttachment(RootComponent);
+	EnemyDetectionCollider->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	EnemyDetectionCollider->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn,
+		ECollisionResponse::ECR_Overlap);
+	EnemyDetectionCollider->SetSphereRadius(TargetLockDistance);
+
+	Weapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon"));
+	Weapon->SetupAttachment(GetMesh(), "RightHandItem");
+	Weapon->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
+
+	PassiveMovementSpeed = 450.0f;
+	CombatMovementSpeed = 250.0f;
+	GetCharacterMovement()->MaxWalkSpeed = PassiveMovementSpeed;
 }	
 
 // Called when the game starts or when spawned
@@ -139,6 +157,22 @@ void AMPlayerCharacter::BeginPlay()
 		}
 	
 	}
+
+		EnemyDetectionCollider->OnComponentBeginOverlap.AddDynamic(this, &AMPlayerCharacter::OnEnemyDetectionBeginOverlap);
+		EnemyDetectionCollider->OnComponentEndOverlap.AddDynamic(this, &AMPlayerCharacter::OnEnemyDetectionEndOverlap);
+
+
+		TSet<AActor*> NearActors;
+		EnemyDetectionCollider->GetOverlappingActors(NearActors);
+		for(auto& EnemyActor : NearActors)
+		{
+			AMEnemy_Base* EnemyCharacter = Cast<AMEnemy_Base>(EnemyActor);
+			if(EnemyCharacter)
+			{
+				NearbyEnemies.Add(EnemyCharacter);
+			}
+		}
+	
 }
 
 void AMPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -252,6 +286,7 @@ void AMPlayerCharacter::Move(const FInputActionValue& Value)
 			AddMovementInput(SlideDirection, MovementVector.X);
 		}
 
+		InputDirection = FVector(MovementVector.Y, MovementVector.X, 0.0f);
 		
 	}
 }
@@ -309,25 +344,26 @@ void AMPlayerCharacter::StopDashing()
 
 void AMPlayerCharacter::Jump()
 {
-	if (GetCharacterMovement()->IsFalling() == false || JumpCount < MaxJumpCount)
-	{
+	//if (GetCharacterMovement()->IsFalling() == false || JumpCount < MaxJumpCount)
+	//{
 		
 		//Super::Jump();
 		 // Calculate the jump velocity
 
-		FVector Velocity = GetVelocity();
-		Velocity.Z = 0;
-		GetCharacterMovement()->Velocity = Velocity;
+		//FVector Velocity = GetVelocity();
+		//Velocity.Z = 0;
+		//GetCharacterMovement()->Velocity = Velocity;
 
-        FVector JumpVelocity = FVector(0, 0, GetCharacterMovement()->JumpZVelocity);
+        //FVector JumpVelocity = FVector(0, 0, GetCharacterMovement()->JumpZVelocity);
         
         // Launch the character into the air
-        LaunchCharacter(JumpVelocity, false, false);
+       // LaunchCharacter(JumpVelocity, false, false);
 
-		JumpCount++;
-	}
+		//JumpCount++;
+	//}
 }
 
+//keep
 void AMPlayerCharacter::StopJumping() //double jump bug please fix
 {
 	Super::StopJumping();
@@ -414,6 +450,8 @@ void AMPlayerCharacter::Tick(float DeltaTime)
     
 	FHitResult Hit;
     
+	FocusTarget();
+
 	//Updating climbing rotation to face the wall
 	if (bIsClimbing && WallLineTrace(Hit))
 	{
@@ -658,6 +696,133 @@ void AMPlayerCharacter::UseItem(class UItem* Item)
 	}
 }
 
+void AMPlayerCharacter::CycleTarget(bool Clockwise)
+{
+	AActor* SuitableTarget = nullptr;
+
+	if(Target)
+	{
+		FVector CameraLocation = 
+		Cast<AMPlayerControllerBase>(GetController())->PlayerCameraManager->GetCameraLocation();
+
+		FRotator TargetDirection =
+		(Target->GetActorLocation() - CameraLocation).ToOrientationRotator();
+
+		float BestYawDifference = INFINITY;
+
+		for(auto& NearbyEnemy : NearbyEnemies)
+		{
+			if(NearbyEnemy == Target)
+			continue;
+
+			FVector NearbyEnemyDirection = NearbyEnemy->GetActorLocation() - CameraLocation;
+			FRotator Difference = UKismetMathLibrary::NormalizedDeltaRotator(NearbyEnemyDirection.ToOrientationRotator(), TargetDirection);
+			(NearbyEnemyDirection.ToOrientationRotator(), TargetDirection);
+
+			if(Clockwise && Difference.Yaw <= 0.0f || !(Clockwise && Difference.Yaw >= 0.0f))continue;
+			
+			float YawDifference = FMath::Abs(Difference.Yaw);
+			if(YawDifference < BestYawDifference)
+			{
+				BestYawDifference = YawDifference;
+				SuitableTarget = NearbyEnemy;
+			}
+		}	
+
+
+	}
+	else
+	{
+		float BestDistance = INFINITY;
+		for(auto& NearbyEnemy : NearbyEnemies)
+		{
+			float Distance = FVector::Dist(GetActorLocation(), NearbyEnemy->GetActorLocation());
+			if(Distance < BestDistance)
+			{
+				BestDistance = Distance;
+				SuitableTarget = NearbyEnemy;
+			}
+
+		}
+	}
+
+	if(SuitableTarget != NULL)
+	{
+		Target = SuitableTarget;
+
+		if(!TargetLocked)
+		SetInCombat(true);
+	}
+}
+
+void AMPlayerCharacter::CycleTargetClockwise()
+{
+	CycleTarget(true);
+}
+
+void AMPlayerCharacter::CycleTargetCounterClockwise()
+{
+	CycleTarget(false);
+}
+
+
+
+void AMPlayerCharacter::OnEnemyDetectionBeginOverlap(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
+{
+	if(Cast<AMEnemy_Base>(OtherActor) && NearbyEnemies.Contains(OtherActor))
+	{
+		NearbyEnemies.Add(OtherActor);
+	}
+}
+
+void AMPlayerCharacter::OnEnemyDetectionEndOverlap(UPrimitiveComponent *OverlappedComp, AActor *OtherActor, UPrimitiveComponent *OtherComp, int32 OtherBodyIndex)
+{
+	if(Cast<AMEnemy_Base>(OtherActor) && NearbyEnemies.Contains(OtherActor))
+	{
+		NearbyEnemies.Remove(OtherActor);
+	}
+}
+
+
+void AMPlayerCharacter::SetInCombat(bool bInCombat)
+{
+	TargetLocked = bInCombat;
+
+	if(UCharacterMovementComponent* MovementComponent = GetCharacterMovement())
+	{
+		MovementComponent->MaxWalkSpeed = bInCombat ? CombatMovementSpeed : PassiveMovementSpeed;
+		MovementComponent->bOrientRotationToMovement = !bInCombat;
+		
+		if(!TargetLocked)
+		{
+			Target = nullptr;
+		}
+	
+	}
+}
+
+void AMPlayerCharacter::ToggleCombatMode()
+{
+	if(!TargetLocked)
+	{
+		CycleTarget(true);
+	}
+	else{
+		
+		SetInCombat(false);
+	}
+}
+
+void AMPlayerCharacter::FocusTarget()
+{
+	if(Target != NULL)
+	{
+		if(FVector::Dist(GetActorLocation(), Target->GetActorLocation()) >= TargetLockDistance)
+		{
+			ToggleCombatMode();
+		}
+	}
+}
 
 void AMPlayerCharacter::OnHealthChanged(const FOnAttributeChangeData & Data)
 {

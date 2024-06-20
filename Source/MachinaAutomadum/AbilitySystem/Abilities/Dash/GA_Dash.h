@@ -20,8 +20,6 @@ class MACHINAAUTOMADUM_API UGA_Dash : public UMGameplayAbility
 
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 
-	void SetCooldown();
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
 	float DashDistance;
 
@@ -29,7 +27,31 @@ class MACHINAAUTOMADUM_API UGA_Dash : public UMGameplayAbility
 	float DashSpeed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
+	float TimeScaleFactor;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
 	float DashCooldown;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	UAnimMontage* RollMontage;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	UAnimMontage* DashMontage;
+
+	UFUNCTION()
+	void OnDashComplete(FGameplayTag EventTag, FGameplayEventData EventData);
+
+	UFUNCTION()
+	void OnRollComplete(FGameplayTag EventTag, FGameplayEventData EventData);
+
+	UFUNCTION()
+	void OnCancelled(FGameplayTag EventTag, FGameplayEventData EventData);
+
+	UFUNCTION()
+	void OnInterrupted(FGameplayTag EventTag, FGameplayEventData EventData);
+
+	UFUNCTION()
+	void EventRecieved(FGameplayTag EventTag, FGameplayEventData EventData);
 
 
 };

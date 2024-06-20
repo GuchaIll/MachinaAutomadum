@@ -286,7 +286,6 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Death")
 	UAnimMontage* DeathMontage;
 
-	
 	UFUNCTION(BlueprintCallable, Category = "Death")
 	bool IsAlive() const;
 
@@ -310,6 +309,8 @@ public:
 
 	int GetCharacterLevel();
 
+	/**HUD */
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
 	TSubclassOf<UUserWidget> PlayerHUDWidgetClass;
 
@@ -324,5 +325,54 @@ public:
 	void UseItem(class UItem* Item);
 
 	FORCEINLINE UPlayerGameplayAbilitiesDataAsset* GetPlayerGameplayAbilitiesDataAsset() const { return PlayerGameplayAbilitiesDataAsset; }
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilitySystem", meta = (AllowPrivateAccess = "true"))
+	float PassiveMovementSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilitySystem", meta = (AllowPrivateAccess = "true"))	
+	float CombatMovementSpeed;
+
+	void CycleTarget(bool Clockwise = true);
+
+	UFUNCTION(BlueprintCallable, Category = "AbilitySystem")
+	void CycleTargetClockwise();
+
+	UFUNCTION(BlueprintCallable, Category = "AbilitySystem")
+	void CycleTargetCounterClockwise();
+
+	TArray<class AActor*> NearbyEnemies;
+	FVector InputDirection;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+		bool TargetLocked;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+		AActor* Target;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Combat")
+	float TargetLockDistance;
+
+	UFUNCTION()
+		void OnEnemyDetectionBeginOverlap(UPrimitiveComponent* OverlappedComp,
+			AActor* OtherActor, UPrimitiveComponent* OtherComp,
+			int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+		void OnEnemyDetectionEndOverlap(class UPrimitiveComponent*
+			OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+			int32 OtherBodyIndex);
+
+
+	void FocusTarget();
+	void ToggleCombatMode();
+	void SetInCombat(bool bInCombat);
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+		class UStaticMeshComponent* Weapon;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
+		class USphereComponent* EnemyDetectionCollider;
+
+
 
 };

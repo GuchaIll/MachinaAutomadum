@@ -31,4 +31,8 @@ class MACHINAAUTOMADUM_API UMAbilitySystemComponent : public UAbilitySystemCompo
 	FReceivedDamageDelegate ReceivedDamageDelegate;
 
 	virtual void ReceiveDamage(AActor* SourceActor, float UnmitigatedDamage, float MitigatedDamage);
+		
+  
+  
+
 };

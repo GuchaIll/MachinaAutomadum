@@ -15,7 +15,23 @@ UMAttributeSet::UMAttributeSet()
   
 }
 
-UWorld* UMAttributeSet::GetWorld() const
+void UMAttributeSet::OnRep_TotalCoolDownReduction(const FGameplayAttributeData &OldTotalCoolDownReduction)
+{
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UMAttributeSet, TotalCoolDownReduction, OldTotalCoolDownReduction);
+}
+
+void UMAttributeSet::OnRep_BaseAttackSpeed(const FGameplayAttributeData &OldBaseAttackSpeed)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UMAttributeSet, BaseAttackSpeed, OldBaseAttackSpeed);
+}
+
+void UMAttributeSet::OnRep_DamageMultiplier(const FGameplayAttributeData &OldDamageMultiplier)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UMAttributeSet, DamageMultiplier, OldDamageMultiplier);
+}
+
+
+UWorld *UMAttributeSet::GetWorld() const
 {
     const UObject* Outer = GetOuter();
     check(Outer);
@@ -36,6 +52,14 @@ void UMAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
         DOREPLIFETIME(UMAttributeSet, Level);
         DOREPLIFETIME(UMAttributeSet, Experience);
         DOREPLIFETIME(UMAttributeSet, ExperienceToNextLevel);
+        DOREPLIFETIME(UMAttributeSet, Shield);
+        DOREPLIFETIME(UMAttributeSet, MaxShield);
+        DOREPLIFETIME(UMAttributeSet, ShieldStack);
+        DOREPLIFETIME(UMAttributeSet, BaseDamage);
+        DOREPLIFETIME(UMAttributeSet, DamageMultiplier);
+        DOREPLIFETIME(UMAttributeSet, BaseAttackSpeed);
+        DOREPLIFETIME(UMAttributeSet, TotalCoolDownReduction);
+    
 
     }
 
@@ -84,9 +108,22 @@ void UMAttributeSet::OnRep_ExperienceToNextLevel(const FGameplayAttributeData& O
     GAMEPLAYATTRIBUTE_REPNOTIFY(UMAttributeSet, ExperienceToNextLevel, OldExperienceToNextLevel);
 }
 
+void UMAttributeSet::OnRep_Shield(const FGameplayAttributeData &OldShield)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UMAttributeSet, Shield, OldShield);
+}
 
+void UMAttributeSet::OnRep_BaseDamage(const FGameplayAttributeData &OldBaseDamage)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UMAttributeSet, BaseDamage, OldBaseDamage);
+}
 
+void UMAttributeSet::OnRep_ShieldStack(const FGameplayAttributeData &OldShieldStack)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UMAttributeSet, ShieldStack, OldShieldStack);
+}
 
-
-
-
+void UMAttributeSet::OnRep_MaxShield(const FGameplayAttributeData &OldMaxShield)
+{
+    GAMEPLAYATTRIBUTE_REPNOTIFY(UMAttributeSet, MaxShield, OldMaxShield);
+}
