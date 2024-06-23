@@ -151,6 +151,11 @@ void AMEnemy_Base::UpdateDamageText(float Damage)
 	}
 }
 
+void AMEnemy_Base::GetOwnedGameplayTags(FGameplayTagContainer &TagContainer) const
+{
+	TagContainer = OwnedTags;
+}
+
 void AMEnemy_Base::DisplayDamageText()
 {
 	if(DamageTextComponent)

@@ -10,6 +10,7 @@
 #include "GameplayTagContainer.h"
 #include "GameplayEffectTypes.h"
 #include "../AbilitySystem/Abilities/MGameplayAbility.h"
+#include "GameplayTagAssetInterface.h"
 #include "MEnemy_Base.generated.h"
 
 class UMAbilitySystemComponent;
@@ -25,7 +26,7 @@ class UMFloatingStatusBar;
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnLevelChanged, float, Health, float, MaxHealth);
 //DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnExperienceChanged, float, Experience, float, MaxExperience);
 UCLASS()
-class MACHINAAUTOMADUM_API AMEnemy_Base : public ACharacter,  public IAbilitySystemInterface
+class MACHINAAUTOMADUM_API AMEnemy_Base : public ACharacter,  public IAbilitySystemInterface, public IGameplayTagAssetInterface
 {
 	GENERATED_BODY()
 
@@ -95,5 +96,21 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "3D Text")
 	void UpdateDamageText(float Damage);
 
+	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	FGameplayTagContainer OwnedTags;
+
+	UFUNCTION(BlueprintCallable, Category = "Gameplay Tag")
+	void AddTag(const FGameplayTag& Tag)
+    {
+        OwnedTags.AddTag(Tag);
+    } 
+
+	UFUNCTION(BlueprintCallable, Category = "Gameplay Tag")
+    void RemoveTag(const FGameplayTag& Tag)
+    {
+        OwnedTags.RemoveTag(Tag);
+    }
 
 };

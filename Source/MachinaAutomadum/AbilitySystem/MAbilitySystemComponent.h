@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
+#include "GameplayTagContainer.h"
 #include "MAbilitySystemComponent.generated.h"
 
 class AActor;
@@ -32,7 +33,13 @@ class MACHINAAUTOMADUM_API UMAbilitySystemComponent : public UAbilitySystemCompo
 
 	virtual void ReceiveDamage(AActor* SourceActor, float UnmitigatedDamage, float MitigatedDamage);
 		
-  
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability System")
+	bool IsWieldingWeapon;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability System")
+	FGameplayTagContainer CurrentTags;
+
+	
   
 
 };

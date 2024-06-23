@@ -13,6 +13,8 @@
 #include "../InventorySystem/InventorySystem.h"
 #include "../Renders/Widgets/PlayerHUDWidget.h"
 #include "Blueprint/UserWidget.h"
+#include "GameplayTagAssetInterface.h"
+
 #include "MPlayerCharacter.generated.h"
 
 class USpringArmComponent;
@@ -25,7 +27,7 @@ class UMTeamManager;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterDeathDelegate, AMPlayerCharacter*, Character);
 UCLASS(config = Game)
-class MACHINAAUTOMADUM_API AMPlayerCharacter : public ACharacter, public IAbilitySystemInterface
+class MACHINAAUTOMADUM_API AMPlayerCharacter : public ACharacter, public IAbilitySystemInterface, public IGameplayTagAssetInterface
 {
 	GENERATED_BODY()
 	/** Camera boom positioning the camera behind the character */
@@ -373,6 +375,20 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Combat")
 		class USphereComponent* EnemyDetectionCollider;
 
+	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	FGameplayTagContainer OwnedTags;
 
+	UFUNCTION(BlueprintCallable, Category = "Gameplay Tag")
+	void AddTag(const FGameplayTag& Tag)
+    {
+        OwnedTags.AddTag(Tag);
+    } 
+
+	UFUNCTION(BlueprintCallable, Category = "Gameplay Tag")
+    void RemoveTag(const FGameplayTag& Tag)
+    {
+        OwnedTags.RemoveTag(Tag);
+    }
 };

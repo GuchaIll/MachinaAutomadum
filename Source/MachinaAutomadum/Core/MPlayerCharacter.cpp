@@ -801,6 +801,14 @@ void AMPlayerCharacter::SetInCombat(bool bInCombat)
 	}
 }
 
+void AMPlayerCharacter::GetOwnedGameplayTags(FGameplayTagContainer &TagContainer) const
+{
+	TagContainer = OwnedTags;
+}
+
+
+
+
 void AMPlayerCharacter::ToggleCombatMode()
 {
 	if(!TargetLocked)

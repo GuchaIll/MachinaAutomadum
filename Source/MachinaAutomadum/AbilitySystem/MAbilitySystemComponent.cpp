@@ -7,6 +7,7 @@
 UMAbilitySystemComponent::UMAbilitySystemComponent(const FObjectInitializer &ObjectInitializer)
 : Super(ObjectInitializer)
 {
+    IsWieldingWeapon = false;
 }
 
 void UMAbilitySystemComponent::ReceiveDamage(AActor *SourceActor, float UnmitigatedDamage, float MitigatedDamage)
