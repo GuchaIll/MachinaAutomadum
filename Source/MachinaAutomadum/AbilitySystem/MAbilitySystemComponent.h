@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemComponent.h"
 #include "GameplayTagContainer.h"
+#include "Animation/AnimInstance.h"
 #include "MAbilitySystemComponent.generated.h"
 
 class AActor;
@@ -37,9 +38,10 @@ class MACHINAAUTOMADUM_API UMAbilitySystemComponent : public UAbilitySystemCompo
 	bool IsWieldingWeapon;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability System")
-	FGameplayTagContainer CurrentTags;
+	int ComboHit;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability System")
+	UAnimInstance* AnimInstance;
 	
-  
 
 };

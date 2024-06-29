@@ -80,7 +80,7 @@ void  UGA_BaseTriggeredInputAction::InputReleased(const FGameplayAbilitySpecHand
     }
 }
 
-void UGA_BaseTriggeredInputAction::OnTriggeredInputAction(const FInputActionValue& Value)
+void UGA_BaseTriggeredInputAction::OnTriggeredInputAction_Implementation(const FInputActionValue& Value)
 {
    
 }

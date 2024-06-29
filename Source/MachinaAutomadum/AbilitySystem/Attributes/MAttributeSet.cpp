@@ -15,9 +15,9 @@ UMAttributeSet::UMAttributeSet()
   
 }
 
-void UMAttributeSet::OnRep_TotalCoolDownReduction(const FGameplayAttributeData &OldTotalCoolDownReduction)
+void UMAttributeSet::OnRep_TotalCooldownReduction(const FGameplayAttributeData &OldTotalCooldownReduction)
 {
-  GAMEPLAYATTRIBUTE_REPNOTIFY(UMAttributeSet, TotalCoolDownReduction, OldTotalCoolDownReduction);
+  GAMEPLAYATTRIBUTE_REPNOTIFY(UMAttributeSet, TotalCooldownReduction, OldTotalCooldownReduction);
 }
 
 void UMAttributeSet::OnRep_BaseAttackSpeed(const FGameplayAttributeData &OldBaseAttackSpeed)
@@ -58,7 +58,7 @@ void UMAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLi
         DOREPLIFETIME(UMAttributeSet, BaseDamage);
         DOREPLIFETIME(UMAttributeSet, DamageMultiplier);
         DOREPLIFETIME(UMAttributeSet, BaseAttackSpeed);
-        DOREPLIFETIME(UMAttributeSet, TotalCoolDownReduction);
+        DOREPLIFETIME(UMAttributeSet, TotalCooldownReduction);
     
 
     }

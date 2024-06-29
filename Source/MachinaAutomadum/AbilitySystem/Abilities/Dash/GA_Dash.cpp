@@ -15,7 +15,7 @@ UGA_Dash::UGA_Dash()
 {
 
     // Default values
-    DashDistance = 5000.0f;
+    DashDistance = 300.0f;
     TimeScaleFactor = 1.0f;
     DashSpeed = 1000.0f;
     DashCooldown = 2.0f;

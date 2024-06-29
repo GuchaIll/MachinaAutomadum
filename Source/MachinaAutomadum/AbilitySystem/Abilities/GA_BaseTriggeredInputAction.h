@@ -36,6 +36,7 @@ class MACHINAAUTOMADUM_API UGA_BaseTriggeredInputAction : public UMGameplayAbili
 
 	virtual void InputReleased(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo) override;
 
-	virtual void OnTriggeredInputAction (const FInputActionValue& Value);
+	UFUNCTION(BlueprintNativeEvent, Category = "Ability")
+	 void OnTriggeredInputAction (const FInputActionValue& Value);
 
 };

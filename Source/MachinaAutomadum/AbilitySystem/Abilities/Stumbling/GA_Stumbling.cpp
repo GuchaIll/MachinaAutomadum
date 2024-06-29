@@ -1,4 +1,4 @@
-#include "CoreMinimal.h"
+
 #include "GA_Stumbling.h"
 #include "AbilitySystemGlobals.h"
 #include "GameFramework/Character.h"

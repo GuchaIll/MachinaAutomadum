@@ -108,8 +108,8 @@ public:
 	//At loadout and character switching
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
-	FGameplayAttributeData TotalCoolDownReduction;
-	ATTRIBUTE_ACCESSORS(UMAttributeSet, TotalCoolDownReduction);
+	FGameplayAttributeData TotalCooldownReduction;
+	ATTRIBUTE_ACCESSORS(UMAttributeSet, TotalCooldownReduction);
 
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Energy, Category = "Attributes")
 	FGameplayAttributeData Energy;
@@ -178,7 +178,7 @@ public:
 	virtual void OnRep_BaseAttackSpeed(const FGameplayAttributeData& OldBaseAttackSpeed);
 
 	UFUNCTION()
-	virtual void OnRep_TotalCoolDownReduction(const FGameplayAttributeData& OldTotalCoolDownReduction);
+	virtual void OnRep_TotalCooldownReduction(const FGameplayAttributeData& OldTotalCooldownReduction);
 
 
 
