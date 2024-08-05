@@ -30,7 +30,7 @@ class MACHINAAUTOMADUM_API UMTerminal : public UUserWidget
         FString Command;
 
         UPROPERTY(BlueprintReadWrite, EditAnywhere)
-        FString History;
+        TArray<FString> History;
 
         UPROPERTY(BlueprintReadWrite, EditAnywhere)
         TWeakObjectPtr<class AInterpreter> TerminalInterpreter;
