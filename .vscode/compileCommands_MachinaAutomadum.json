@@ -32,6 +32,22 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
 	},
 	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\AbilitySystem\\Abilities\\Jump\\GA_Jump.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\AbilitySystem\\Abilities\\Jump\\GA_Jump.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
 		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\AbilitySystem\\Abilities\\MGameplayAbility.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
@@ -57,6 +73,22 @@
 	},
 	{
 		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\AbilitySystem\\Abilities\\Poke\\GA_ProjectilePoke.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\AbilitySystem\\Abilities\\Stumbling\\GA_Stumbling.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\AbilitySystem\\Abilities\\Stumbling\\GA_Stumbling.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
@@ -240,6 +272,22 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
 	},
 	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Core\\MCharacter.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Core\\MCharacter.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
 		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Core\\MGameInstance.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
@@ -265,6 +313,22 @@
 	},
 	{
 		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Core\\MPlayerCharacter.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Core\\MPlayerControllerBase.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Core\\MPlayerControllerBase.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
@@ -416,22 +480,6 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
 	},
 	{
-		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\MPlayerControllerBase.cpp",
-		"arguments": [
-			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
-			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
-		],
-		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
-	},
-	{
-		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\MPlayerControllerBase.h",
-		"arguments": [
-			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
-			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
-		],
-		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
-	},
-	{
 		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\MachinaAutomadum.Build.cs",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
@@ -504,6 +552,38 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
 	},
 	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Renders\\Widgets\\HUDManager.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Renders\\Widgets\\HUDManager.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Renders\\Widgets\\Interpreter.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Renders\\Widgets\\Interpreter.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
 		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Renders\\Widgets\\MFloatingStatusBar.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
@@ -513,6 +593,22 @@
 	},
 	{
 		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Renders\\Widgets\\MFloatingStatusBar.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Renders\\Widgets\\MTerminal.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Renders\\Widgets\\MTerminal.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
@@ -545,6 +641,22 @@
 	},
 	{
 		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\SavingSystem\\SaveGameData.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Weapons\\Weapon.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Weapons\\Weapon.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.38.33130\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_MachinaAutomadum\\MachinaAutomadum.1.rsp"

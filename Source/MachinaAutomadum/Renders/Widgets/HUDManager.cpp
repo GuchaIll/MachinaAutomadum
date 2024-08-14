@@ -14,7 +14,7 @@ UUserWidget *UHUDManager::Pop()
     if(WidgetStack.Num() > 0)
     {
         UUserWidget *widget = WidgetStack.Last();
-        widget->RemoveFromViewport();
+        
         WidgetStack.RemoveAt(WidgetStack.Num() - 1);
         return widget;
     }

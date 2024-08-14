@@ -58,6 +58,11 @@ void UGA_Jump::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FG
 
                     Character->LaunchCharacter(JumpVelocity, true, true);
 
+                    if(Character->JumpCount < 1)
+                    {
+                        
+
+                    }
                     Character->JumpCount++;
                 }
                 else

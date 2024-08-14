@@ -28,17 +28,17 @@ class MACHINAAUTOMADUM_API AMCharacter : public ACharacter, public IAbilitySyste
 
     virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const override;
 
-    UFUNCTION(BlueprintCallable, Category = "Gameplay Tag")
-	void AddTag(const FGameplayTag& Tag)
-    {
-        OwnedTags.AddTag(Tag);
-    } 
+    //UFUNCTION(BlueprintCallable, Category = "Gameplay Tag")
+	//void AddTag(const FGameplayTag& Tag)
+    //{
+     //   OwnedTags.AddTag(Tag);
+    //} 
 
-	UFUNCTION(BlueprintCallable, Category = "Gameplay Tag")
-    void RemoveTag(const FGameplayTag& Tag)
-    {
-        OwnedTags.RemoveTag(Tag);
-    }
+	//UFUNCTION(BlueprintCallable, Category = "Gameplay Tag")
+    //void RemoveTag(const FGameplayTag& Tag)
+   // {
+     //   OwnedTags.RemoveTag(Tag);
+    //}
 
 
     protected:

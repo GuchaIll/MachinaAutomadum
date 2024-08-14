@@ -98,19 +98,19 @@ public:
 
 	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
 	FGameplayTagContainer OwnedTags;
 
-	UFUNCTION(BlueprintCallable, Category = "Gameplay Tag")
-	void AddTag(const FGameplayTag& Tag)
-    {
-        OwnedTags.AddTag(Tag);
-    } 
+	//UFUNCTION(BlueprintCallable, Category = "Gameplay Tag")
+	//void AddTag(const FGameplayTag& Tag)
+    //{
+     //  OwnedTags.AddTag(Tag);
+    //} 
 
-	UFUNCTION(BlueprintCallable, Category = "Gameplay Tag")
-    void RemoveTag(const FGameplayTag& Tag)
-    {
-        OwnedTags.RemoveTag(Tag);
-    }
+	//UFUNCTION(BlueprintCallable, Category = "Gameplay Tag")
+    //void RemoveTag(const FGameplayTag& Tag)
+   // {
+      //  OwnedTags.RemoveTag(Tag);
+    //}
 
 };

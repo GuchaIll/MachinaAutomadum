@@ -82,7 +82,7 @@ void AMCharacter::OnHealthChanged(const FOnAttributeChangeData &Data)
     if(Health <= 0.0f && !AbilitySystemComponent->HasMatchingGameplayTag(DeathTag))
 	{
 		//Perform Death Related Actions
-		AddTag(DeathTag);
+		OwnedTags.AddTag(DeathTag);
 
 		OnDeath();
 	}

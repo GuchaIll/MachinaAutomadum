@@ -314,7 +314,10 @@ public:
 	/**HUD */
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
-	TSubclassOf<UUserWidget> PlayerHUDWidgetClass;
+	TSubclassOf<class UPlayerHUDWidget> PlayerHUDWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
+	UPlayerHUDWidget *PlayerHUD;
 
 	UPROPERTY()
 	UUserWidget* HudWidget;
@@ -377,18 +380,18 @@ public:
 
 	virtual void GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Combat")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
 	FGameplayTagContainer OwnedTags;
 
-	UFUNCTION(BlueprintCallable, Category = "Gameplay Tag")
-	void AddTag(const FGameplayTag& Tag)
-    {
-        OwnedTags.AddTag(Tag);
-    } 
+	//UFUNCTION(BlueprintCallable, Category = "Gameplay Tag")
+	//void AddTag(const FGameplayTag& Tag)
+    //{
+       // OwnedTags.AddTag(Tag);
+    //} 
 
-	UFUNCTION(BlueprintCallable, Category = "Gameplay Tag")
-    void RemoveTag(const FGameplayTag& Tag)
-    {
-        OwnedTags.RemoveTag(Tag);
-    }
+	//UFUNCTION(BlueprintCallable, Category = "Gameplay Tag")
+   // void RemoveTag(const FGameplayTag& Tag)
+    //{
+      //  OwnedTags.RemoveTag(Tag);
+    //}
 };

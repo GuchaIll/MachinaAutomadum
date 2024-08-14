@@ -8,8 +8,8 @@ UMTerminal::UMTerminal(const FObjectInitializer& ObjectInitializer)
 {
     Command = "";
     
-
-    AInterpreter* InterpreterInstance = GetWorld()->SpawnActor<AInterpreter>(AInterpreter::StaticClass());
+    AInterpreter* InterpreterInstance = nullptr;
+    if(GetWorld() != nullptr) InterpreterInstance = GetWorld()->SpawnActor<AInterpreter>(AInterpreter::StaticClass());
     if (InterpreterInstance)
     {
     // Assuming you have access to an instance of MTerminal here
