@@ -26,7 +26,9 @@
 #include "../Enemy/MEnemy_Base.h"
 #include "MPlayerControllerBase.h"
 #include "GameplayEffectTypes.h"
+#include "GameplayTagContainer.h"
 #include "Components/SphereComponent.h"
+#include "Components/WidgetComponent.h"
 #include "kismet/GameplayStatics.h"
 
 
@@ -85,10 +87,8 @@ AMPlayerCharacter::AMPlayerCharacter()
 	DeathTag = FGameplayTag::RequestGameplayTag(FName("State.Dead"));
 	EffectRemoveOnDeathTag = FGameplayTag::RequestGameplayTag(FName("Effect.RemoveOnDeath"));
 
-	TeamManager = CreateDefaultSubobject<UMTeamManager>(TEXT("TeamManager"));
-	if(TeamManager) TeamManager->CurrentCharacter = this;
+	
 
-	//Bind Delegates for Attributes
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetHealthAttribute()).AddUObject(this, &AMPlayerCharacter::OnHealthChanged);
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetMaxHealthAttribute()).AddUObject(this, &AMPlayerCharacter::OnMaxHealthChanged);
 	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetEnergyAttribute()).AddUObject(this, &AMPlayerCharacter::OnEnergyChanged);
@@ -114,12 +114,25 @@ AMPlayerCharacter::AMPlayerCharacter()
 	CombatMovementSpeed = 250.0f;
 	GetCharacterMovement()->MaxWalkSpeed = PassiveMovementSpeed; 
 
-	PlayerHUDWidgetClass = StaticLoadClass(UObject::StaticClass(), nullptr, TEXT("/Game/MachinaAutomadum/Renders/Widgets/W_PlayerHUDWidget.W_PlayerHUDWidget_C"));
+	PlayerHUDComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("PlayerHUDComponent"));
+	PlayerHUDComponent->SetupAttachment(RootComponent);
+	PlayerHUDComponent->SetRelativeLocation(FVector(0.0f, -50.0f, 120.0f));
+	PlayerHUDComponent->SetWidgetSpace(EWidgetSpace::Screen);
+	PlayerHUDComponent->SetDrawSize(FVector2D(25.0f, 25.0f));
+
+	PlayerHUDWidgetClass = StaticLoadClass(UObject::StaticClass(), nullptr, TEXT("/Game/MachinaAutomadum/Renders/Widgets/W_PlayerHUDWidget.W_PlayerHUDWidget_CT"));
 	if (!PlayerHUDWidgetClass)
 	{
-		UE_LOG(LogTemp, Error, TEXT("%s() Failed to find UIFloatingStatusBarClass. If it was moved, please update the reference location in C++."), *FString(__FUNCTION__));
+		UE_LOG(LogTemp, Error, TEXT("%s() Failed to find PlauerHUD. If it was moved, please update the reference location in C++."), *FString(__FUNCTION__));
 	}
 
+	TeamManager = CreateDefaultSubobject<UMTeamManager>(TEXT("TeamManager"));
+	if(TeamManager) TeamManager->CurrentCharacter = this;
+
+	//Bind Delegates for Attributes
+	
+
+	
 }	
 
 // Called when the game starts or when spawned
@@ -147,21 +160,14 @@ void AMPlayerCharacter::BeginPlay()
 			
 		 	PlayerHUD = CreateWidget<UPlayerHUDWidget>(PC, PlayerHUDWidgetClass);
 
-			if(PlayerHUD)
+			if(PlayerHUD && PlayerHUDComponent)
 			{
 				if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("BindingToHUD"));
-				PlayerHUD->AddToViewport();
+				PlayerHUDComponent->SetWidget(PlayerHUD);
 				//PlayerHUD = Cast<UPlayerHUDWidget>(HudWidget);
-				AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetHealthAttribute()).AddUObject(this, &AMPlayerCharacter::OnHealthChanged);
-				AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetMaxHealthAttribute()).AddUObject(this, &AMPlayerCharacter::OnMaxHealthChanged);
-				AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetEnergyAttribute()).AddUObject(this, &AMPlayerCharacter::OnEnergyChanged);
-				AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetMaxEnergyAttribute()).AddUObject(this, &AMPlayerCharacter::OnMaxEnergyChanged);
-				AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetArmorAttribute()).AddUObject(this, &AMPlayerCharacter::OnArmorChanged);
-				AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetMaxArmorAttribute()).AddUObject(this, &AMPlayerCharacter::OnMaxArmorChanged);
-				AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetLevelAttribute()).AddUObject(this, &AMPlayerCharacter::OnLevelChanged);
-				AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMAttributeSet::GetExperienceAttribute()).AddUObject(this, &AMPlayerCharacter::OnExperienceChanged);
+				
 
-				PlayerHUD->SetHealth(AttributeSet->GetHealth(), AttributeSet->GetMaxHealth());
+				PlayerHUD->SetHealth(10.0f, AttributeSet->GetMaxHealth());
 				PlayerHUD->SetEnergy(AttributeSet->GetEnergy(), AttributeSet->GetMaxEnergy());
 				PlayerHUD->SetArmor(AttributeSet->GetArmor(), AttributeSet->GetMaxArmor());
 				PlayerHUD->SetLevel(AttributeSet->GetLevel());
@@ -518,29 +524,29 @@ void AMPlayerCharacter::OnRep_PlayerState()
 	//InitializeAttributes();
 }
 
-void AMPlayerCharacter::InitializeAttributes()
-{
-	if (AbilitySystemComponent && DefaultAttributeEffect) 
-	{
-		FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
-		EffectContext.AddSourceObject(this);
+//void AMPlayerCharacter::InitializeAttributes()
+//{
+////	if (AbilitySystemComponent && DefaultAttributeEffect) 
+	//{
+	//	FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
+	//	EffectContext.AddSourceObject(this);
 
-		FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(DefaultAttributeEffect, GetCharacterLevel(), EffectContext);
+	//	FGameplayEffectSpecHandle NewHandle = AbilitySystemComponent->MakeOutgoingSpec(DefaultAttributeEffect, GetCharacterLevel(), EffectContext);
 		
-		if (NewHandle.IsValid())
-		{
-			FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*NewHandle.Data.Get());
-		}
-	}
-	else{
-		if(GEngine)
-		{
-			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Unable to initialize attributes"));
-			AttributeSet = AbilitySystemComponent->GetSet<UMAttributeSet>();
+	//	if (NewHandle.IsValid())
+	//	{
+		//	FActiveGameplayEffectHandle ActiveGEHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*NewHandle.Data.Get());
+		//}
+	//}
+	//else{
+		//Bif(GEngine)
+		//{
+		//	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Unable to initialize attributes"));
+		//	AttributeSet = AbilitySystemComponent->GetSet<UMAttributeSet>();
 		
-		}
-	}
-}
+		//}
+	//}
+//}
 
 void AMPlayerCharacter::GiveDefaultAbilities()
 {
@@ -857,8 +863,9 @@ void AMPlayerCharacter::OnHealthChanged(const FOnAttributeChangeData & Data)
 {
 
 	float Health = Data.NewValue;
+	if(GEngine) GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Red, TEXT("UpdateHealth"));
 
-	
+	HealthChanged(Data.NewValue, Data.OldValue, AttributeSet->GetMaxHealth());
 	if(PlayerHUD)
 	{ PlayerHUD->SetHealth(Health, AttributeSet->GetMaxHealth());
 		if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("UpdateHUD"));
@@ -878,6 +885,7 @@ void AMPlayerCharacter::OnMaxHealthChanged(const FOnAttributeChangeData & Data)
 {
 	float MaxHealth = Data.NewValue;
 
+	MaxHealthChanged(Data.NewValue, Data.OldValue, AttributeSet->GetHealth());
 	if(PlayerHUD) PlayerHUD->SetHealth(AttributeSet->GetHealth(), MaxHealth);
 
 }
@@ -885,25 +893,29 @@ void AMPlayerCharacter::OnMaxHealthChanged(const FOnAttributeChangeData & Data)
 void AMPlayerCharacter::OnEnergyChanged(const FOnAttributeChangeData & Data)
 {
 	float Energy = Data.NewValue;
-
+	EnergyChanged(Data.NewValue, Data.OldValue, AttributeSet->GetMaxEnergy());
 	if(PlayerHUD) PlayerHUD->SetEnergy(Energy, AttributeSet->GetMaxEnergy());
 }
 
 void AMPlayerCharacter::OnMaxEnergyChanged(const FOnAttributeChangeData & Data)
 {
 	float MaxEnergy = Data.NewValue;
+	MaxEnergyChanged(Data.NewValue, Data.OldValue, AttributeSet->GetEnergy());
 	if(PlayerHUD) PlayerHUD->SetEnergy(AttributeSet->GetEnergy(), MaxEnergy);
+
 }
 
 void AMPlayerCharacter::OnArmorChanged(const FOnAttributeChangeData & Data)
 {
 	float Armor = Data.NewValue;
+	ArmorChanged(Data.NewValue, Data.OldValue, AttributeSet->GetMaxArmor());
 	if(PlayerHUD) PlayerHUD->SetArmor(Armor, AttributeSet->GetMaxArmor());
 }
 
 void AMPlayerCharacter::OnMaxArmorChanged(const FOnAttributeChangeData & Data)
 {
 	float MaxArmor = Data.NewValue;
+	MaxArmorChanged(Data.NewValue, Data.OldValue, AttributeSet->GetArmor());
 	if(PlayerHUD) PlayerHUD->SetArmor(AttributeSet->GetArmor(), MaxArmor);
 }
 

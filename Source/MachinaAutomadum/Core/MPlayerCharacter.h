@@ -12,8 +12,10 @@
 #include "../AbilitySystem/Input/PlayerGameplayAbilitiesDataAsset.h"
 #include "../InventorySystem/InventorySystem.h"
 #include "../Renders/Widgets/PlayerHUDWidget.h"
+#include "Components/WidgetComponent.h"
 #include "Blueprint/UserWidget.h"
 #include "GameplayTagAssetInterface.h"
+#include "GameplayEffectTypes.h"
 
 #include "MPlayerCharacter.generated.h"
 
@@ -24,6 +26,7 @@ class UInputAction;
 struct FInputActionValue;
 class UMAbilitySystemComponent;
 class UMTeamManager;
+
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCharacterDeathDelegate, AMPlayerCharacter*, Character);
 UCLASS(config = Game)
@@ -235,7 +238,7 @@ public:
 	/** Ability System Set up */
 	virtual void PossessedBy(AController *NewController) override;
 	virtual void OnRep_PlayerState() override;
-	virtual void InitializeAttributes();
+	//virtual void InitializeAttributes();
 	virtual void GiveDefaultAbilities();
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Ability", meta = (AllowPrivateAccess = "true"))
@@ -292,7 +295,26 @@ public:
 	bool IsAlive() const;
 
 	/*Attribute Delegate*/
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attributes")
+	void HealthChanged(float NewHealth, float oldHealth, float MaxHealth);
+	 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attributes")
+	void MaxHealthChanged(float NewMaxHealth, float oldMaxHealth, float Health);
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attributes")
+	void EnergyChanged(float NewEnergy, float oldEnergy, float MaxEnergy);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attributes")
+	void MaxEnergyChanged(float NewMaxEnergy, float oldMaxEnergy, float Energy);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attributes")
+	void ArmorChanged(float NewArmor, float oldArmor, float MaxArmor);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attributes")	
+	void MaxArmorChanged(float NewMaxArmor, float oldMaxArmor, float Armor);
+
+
+	
 	virtual void OnHealthChanged(const FOnAttributeChangeData& Data);
 
 	virtual void OnMaxHealthChanged(const FOnAttributeChangeData& Data);
@@ -311,7 +333,7 @@ public:
 
 	int GetCharacterLevel();
 
-	/**HUD */
+	/**HUD */	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
 	TSubclassOf<class UPlayerHUDWidget> PlayerHUDWidgetClass;
@@ -319,8 +341,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "HUD")
 	UPlayerHUDWidget *PlayerHUD;
 
-	UPROPERTY()
-	UUserWidget* HudWidget;
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "UI")
+	UWidgetComponent* PlayerHUDComponent;
 
 	/** Inventory System */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Inventory System")

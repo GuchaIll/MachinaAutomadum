@@ -33,6 +33,6 @@ class MACHINAAUTOMADUM_API UMTerminal : public UUserWidget
         TArray<FString> History;
 
         UPROPERTY(BlueprintReadWrite, EditAnywhere)
-        TWeakObjectPtr<class AInterpreter> TerminalInterpreter;
+        TWeakObjectPtr<class AInterpreter> InterpreterInstance;
 	
 };

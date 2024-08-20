@@ -1,6 +1,8 @@
 
 #include "MTerminal.h"
 #include "HUDManager.h"
+#include "Engine/World.h"
+#include "GameFramework/Actor.h"
 #include "Interpreter.h"
 
 UMTerminal::UMTerminal(const FObjectInitializer& ObjectInitializer)
@@ -8,14 +10,45 @@ UMTerminal::UMTerminal(const FObjectInitializer& ObjectInitializer)
 {
     Command = "";
     
-    AInterpreter* InterpreterInstance = nullptr;
-    if(GetWorld() != nullptr) InterpreterInstance = GetWorld()->SpawnActor<AInterpreter>(AInterpreter::StaticClass());
-    if (InterpreterInstance)
+   if (GetWorld() != nullptr)
     {
-    // Assuming you have access to an instance of MTerminal here
-       
-        TerminalInterpreter = InterpreterInstance;
-    } 
+        UClass* InterpreterClass = AInterpreter::StaticClass();
+        if (InterpreterClass != nullptr)
+        {
+            FActorSpawnParameters SpawnParams;
+            SpawnParams.Owner = GetOwningPlayerPawn();
+            
+
+            // Log before spawning
+            UE_LOG(LogTemp, Log, TEXT("Spawning Interpreter"));
+
+            // Use SpawnActorDeferred for safer spawning
+            AInterpreter* DeferredInterpreter = GetWorld()->SpawnActorDeferred<AInterpreter>(InterpreterClass, FTransform::Identity, SpawnParams.Owner, nullptr);
+            if (DeferredInterpreter)
+            {
+                // Initialize any properties on DeferredInterpreter here if needed
+
+                // Finish spawning
+                DeferredInterpreter->FinishSpawning(FTransform::Identity);
+                InterpreterInstance = DeferredInterpreter;
+
+                // Log after spawning
+                UE_LOG(LogTemp, Log, TEXT("Interpreter spawned successfully"));
+            }
+            else
+            {
+                UE_LOG(LogTemp, Error, TEXT("Failed to spawn Interpreter"));
+            }
+        }
+        else
+        {
+            UE_LOG(LogTemp, Error, TEXT("InterpreterClass is null"));
+        }
+    }
+    else
+    {
+        UE_LOG(LogTemp, Error, TEXT("GetWorld() returned null"));
+    }
 }
 
 
@@ -26,8 +59,8 @@ FString UMTerminal::GetCommand()
 
 FString UMTerminal::ExecuteCommand()
 {
-    if(!Command.IsEmpty() && TerminalInterpreter.IsValid())
-    return TerminalInterpreter->Interpret(Command);
+    if(!Command.IsEmpty() && InterpreterInstance.IsValid())
+    return InterpreterInstance->Interpret(Command);
     else return "Error: Missing Command/Interpreter";
 }
 
