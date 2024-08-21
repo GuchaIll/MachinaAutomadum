@@ -114,11 +114,11 @@ AMPlayerCharacter::AMPlayerCharacter()
 	CombatMovementSpeed = 250.0f;
 	GetCharacterMovement()->MaxWalkSpeed = PassiveMovementSpeed; 
 
-	PlayerHUDComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("PlayerHUDComponent"));
-	PlayerHUDComponent->SetupAttachment(RootComponent);
-	PlayerHUDComponent->SetRelativeLocation(FVector(0.0f, -50.0f, 120.0f));
-	PlayerHUDComponent->SetWidgetSpace(EWidgetSpace::Screen);
-	PlayerHUDComponent->SetDrawSize(FVector2D(25.0f, 25.0f));
+	//PlayerHUDComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("PlayerHUDComponent"));
+	//PlayerHUDComponent->SetupAttachment(RootComponent);
+	//PlayerHUDComponent->SetRelativeLocation(FVector(0.0f, -50.0f, 120.0f));
+	//PlayerHUDComponent->SetWidgetSpace(EWidgetSpace::Screen);
+	//PlayerHUDComponent->SetDrawSize(FVector2D(25.0f, 25.0f));
 
 	PlayerHUDWidgetClass = StaticLoadClass(UObject::StaticClass(), nullptr, TEXT("/Game/MachinaAutomadum/Renders/Widgets/W_PlayerHUDWidget.W_PlayerHUDWidget_CT"));
 	if (!PlayerHUDWidgetClass)
@@ -159,15 +159,16 @@ void AMPlayerCharacter::BeginPlay()
 		{
 			
 		 	PlayerHUD = CreateWidget<UPlayerHUDWidget>(PC, PlayerHUDWidgetClass);
+			PlayerHUD->AddToViewport();
 
 			if(PlayerHUD && PlayerHUDComponent)
 			{
 				if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("BindingToHUD"));
-				PlayerHUDComponent->SetWidget(PlayerHUD);
+				//PlayerHUDComponent->SetWidget(PlayerHUD);
 				//PlayerHUD = Cast<UPlayerHUDWidget>(HudWidget);
 				
 
-				PlayerHUD->SetHealth(10.0f, AttributeSet->GetMaxHealth());
+				PlayerHUD->SetHealth(AttributeSet->GetHealth(), AttributeSet->GetMaxHealth());
 				PlayerHUD->SetEnergy(AttributeSet->GetEnergy(), AttributeSet->GetMaxEnergy());
 				PlayerHUD->SetArmor(AttributeSet->GetArmor(), AttributeSet->GetMaxArmor());
 				PlayerHUD->SetLevel(AttributeSet->GetLevel());
@@ -878,6 +879,7 @@ void AMPlayerCharacter::OnHealthChanged(const FOnAttributeChangeData & Data)
 	if (Data.NewValue <= 0.0f && !AbilitySystemComponent->HasMatchingGameplayTag(DeathTag))
 	{
 		Die();
+		OnCharacterDeath_BP();
 	}
 }
 

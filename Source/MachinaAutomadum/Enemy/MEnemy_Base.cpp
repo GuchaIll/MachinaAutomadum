@@ -140,6 +140,8 @@ void AMEnemy_Base::OnHealthChanged(const FOnAttributeChangeData& Data)
 		FGameplayTagContainer EffectRemoveOnDeathTagContainer;
 		EffectRemoveOnDeathTagContainer.AddTag(EffectRemoveOnDeathTag);
 		AbilitySystemComponent->RemoveActiveEffectsWithGrantedTags(EffectRemoveOnDeathTagContainer);
+
+		EnemyDeath();
 	}
 }
 

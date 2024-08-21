@@ -313,7 +313,14 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Attributes")	
 	void MaxArmorChanged(float NewMaxArmor, float oldMaxArmor, float Armor);
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attributes")
+	void LevelChanged(int32 NewLevel, int32 oldLevel);
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attributes")
+	void ExperienceChanged(float NewExperience, float oldExperience, float MaxExperience);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Attributes")
+	void OnCharacterDeath_BP();
 	
 	virtual void OnHealthChanged(const FOnAttributeChangeData& Data);
 

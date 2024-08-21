@@ -76,6 +76,9 @@ public:
 	UPROPERTY()
 	UMFloatingStatusBar* UIFloatingStatusBar;
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "UI")
+	void EnemyDeath();
+
 	virtual void OnHealthChanged(const FOnAttributeChangeData& Data);
 
 	virtual void OnMaxHealthChanged(const FOnAttributeChangeData& Data);
