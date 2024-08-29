@@ -62,73 +62,73 @@ public:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Health, Category = "Attributes")
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_Health, Category = "Attributes")
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, Health);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxHealth, Category = "Attributes")
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_MaxHealth, Category = "Attributes")
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, MaxHealth);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxArmor, Category = "Attributes")
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_MaxArmor, Category = "Attributes")
 	FGameplayAttributeData MaxArmor;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, MaxArmor);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
 	FGameplayAttributeData Armor;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, Armor);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
 	FGameplayAttributeData Shield;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, Shield);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
 	FGameplayAttributeData MaxShield;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, MaxShield);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
 	FGameplayAttributeData ShieldStack;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, ShieldStack);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
 	FGameplayAttributeData BaseDamage;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, BaseDamage);
 
 	//Custom execution class for calculating damage multiplier
 	//At loadout and character switching
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
 	FGameplayAttributeData DamageMultiplier;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, DamageMultiplier);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Attributes")	
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_Armor, Category = "Attributes")	
 	FGameplayAttributeData BaseAttackSpeed;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, BaseAttackSpeed);
 
 	//Custom execution class for calculating total cooldown reduction
 	//At loadout and character switching
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_Armor, Category = "Attributes")
 	FGameplayAttributeData TotalCooldownReduction;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, TotalCooldownReduction);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Energy, Category = "Attributes")
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_Energy, Category = "Attributes")
 	FGameplayAttributeData Energy;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, Energy);
 
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_MaxEnergy, Category = "Attributes")
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_MaxEnergy, Category = "Attributes")
 	FGameplayAttributeData MaxEnergy;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, MaxEnergy);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Level, Category = "Attributes")
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_Level, Category = "Attributes")
 	FGameplayAttributeData Level;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, Level);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_Experience, Category = "Attributes")
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_Experience, Category = "Attributes")
 	FGameplayAttributeData Experience;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, Experience);
 
-	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_ExperienceToNextLevel, Category = "Attributes")
+	UPROPERTY(BlueprintReadWrite, ReplicatedUsing = OnRep_ExperienceToNextLevel, Category = "Attributes")
 	FGameplayAttributeData ExperienceToNextLevel;
 	ATTRIBUTE_ACCESSORS(UMAttributeSet, ExperienceToNextLevel);
 
@@ -180,6 +180,55 @@ public:
 	UFUNCTION()
 	virtual void OnRep_TotalCooldownReduction(const FGameplayAttributeData& OldTotalCooldownReduction);
 
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+    void MSetHealth(float NewHealthValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void MSetMaxHealth(float NewMaxHealthValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void MSetArmor(float NewArmorValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void MSetMaxArmor(float NewMaxArmorValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void MSetEnergy(float NewEnergyValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void MSetMaxEnergy(float NewMaxEnergyValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void MSetLevel(int NewLevelValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void MSetExperience(float NewExperienceValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void MSetExperienceToNextLevel(float NewExperienceToNextLevelValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void MSetShield(float NewShieldValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void MSetMaxShield(float NewMaxShieldValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void MSetShieldStack(float NewShieldStackValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void MSetBaseDamage(float NewBaseDamageValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void MSetDamageMultiplier(float NewDamageMultiplierValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void MSetBaseAttackSpeed(float NewBaseAttackSpeedValue);
+
+	UFUNCTION(BlueprintCallable, Category = "Attributes")
+	void MSetTotalCooldownReduction(float NewTotalCooldownReductionValue);
+
+	
 
 
   	UWorld* GetWorld() const override;

@@ -127,3 +127,115 @@ void UMAttributeSet::OnRep_MaxShield(const FGameplayAttributeData &OldMaxShield)
 {
     GAMEPLAYATTRIBUTE_REPNOTIFY(UMAttributeSet, MaxShield, OldMaxShield);
 }
+
+void UMAttributeSet::MSetHealth(float NewHealthValue)
+{
+    Health.SetBaseValue(NewHealthValue);
+    Health.SetCurrentValue(NewHealthValue);
+    // Add additional logic if necessary
+}
+
+void UMAttributeSet::MSetMaxHealth(float NewMaxHealthValue)
+{
+    MaxHealth.SetBaseValue(NewMaxHealthValue);
+    MaxHealth.SetCurrentValue(NewMaxHealthValue);
+    // Add additional logic if necessary
+}
+
+void UMAttributeSet::MSetArmor(float NewArmorValue)
+{
+    Armor.SetBaseValue(NewArmorValue);
+    Armor.SetCurrentValue(NewArmorValue);
+    // Add additional logic if necessary
+}
+
+void UMAttributeSet::MSetMaxArmor(float NewMaxArmorValue)
+{
+    MaxArmor.SetBaseValue(NewMaxArmorValue);
+    MaxArmor.SetCurrentValue(NewMaxArmorValue);
+    // Add additional logic if necessary
+}
+
+void UMAttributeSet::MSetEnergy(float NewEnergyValue)
+{
+    Energy.SetBaseValue(NewEnergyValue);
+    Energy.SetCurrentValue(NewEnergyValue);
+    // Add additional logic if necessary
+}
+
+void UMAttributeSet::MSetMaxEnergy(float NewMaxEnergyValue)
+{
+    MaxEnergy.SetBaseValue(NewMaxEnergyValue);
+    MaxEnergy.SetCurrentValue(NewMaxEnergyValue);
+    // Add additional logic if necessary
+}
+
+void UMAttributeSet::MSetLevel(int NewLevelValue)
+{
+    Level.SetBaseValue(NewLevelValue);
+    Level.SetCurrentValue(NewLevelValue);
+    // Add additional logic if necessary
+}
+
+void UMAttributeSet::MSetExperience(float NewExperienceValue)
+{
+    Experience.SetBaseValue(NewExperienceValue);
+    Experience.SetCurrentValue(NewExperienceValue);
+    // Add additional logic if necessary
+}
+
+void UMAttributeSet::MSetExperienceToNextLevel(float NewExperienceToNextLevelValue)
+{
+    ExperienceToNextLevel.SetBaseValue(NewExperienceToNextLevelValue);
+    ExperienceToNextLevel.SetCurrentValue(NewExperienceToNextLevelValue);
+    // Add additional logic if necessary
+}
+
+void UMAttributeSet::MSetShield(float NewShieldValue)
+{
+    Shield.SetBaseValue(NewShieldValue);
+    Shield.SetCurrentValue(NewShieldValue);
+    // Add additional logic if necessary
+}
+
+void UMAttributeSet::MSetMaxShield(float NewMaxShieldValue)
+{
+    MaxShield.SetBaseValue(NewMaxShieldValue);
+    MaxShield.SetCurrentValue(NewMaxShieldValue);
+    // Add additional logic if necessary
+}
+
+void UMAttributeSet::MSetShieldStack(float NewShieldStackValue)
+{
+    ShieldStack.SetBaseValue(NewShieldStackValue);
+    ShieldStack.SetCurrentValue(NewShieldStackValue);
+    // Add additional logic if necessary
+}
+
+void UMAttributeSet::MSetBaseDamage(float NewBaseDamageValue)
+{
+    BaseDamage.SetBaseValue(NewBaseDamageValue);
+    BaseDamage.SetCurrentValue(NewBaseDamageValue);
+    // Add additional logic if necessary
+}
+
+void UMAttributeSet::MSetDamageMultiplier(float NewDamageMultiplierValue)
+{
+    DamageMultiplier.SetBaseValue(NewDamageMultiplierValue);
+    DamageMultiplier.SetCurrentValue(NewDamageMultiplierValue);
+    // Add additional logic if necessary
+}
+
+void UMAttributeSet::MSetBaseAttackSpeed(float NewBaseAttackSpeedValue)
+{
+    BaseAttackSpeed.SetBaseValue(NewBaseAttackSpeedValue);
+    BaseAttackSpeed.SetCurrentValue(NewBaseAttackSpeedValue);
+    // Add additional logic if necessary
+}
+
+void UMAttributeSet::MSetTotalCooldownReduction(float NewTotalCooldownReductionValue)
+{
+    TotalCooldownReduction.SetBaseValue(NewTotalCooldownReductionValue);
+    TotalCooldownReduction.SetCurrentValue(NewTotalCooldownReductionValue);
+    // Add additional logic if necessary
+}
