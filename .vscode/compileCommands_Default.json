@@ -1,5 +1,141 @@
 [
 	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\OpenAIAPI.Build.cs",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\Private\\OpenAIAPI.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\Private\\OpenAICallChat.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\Private\\OpenAICallCompletions.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\Private\\OpenAICallDALLE.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\Private\\OpenAICallTranscriptions.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\Private\\OpenAIDefinitions.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\Private\\OpenAIParser.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\Private\\OpenAIUtils.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\Public\\OpenAIAPI.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\Public\\OpenAICallChat.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\Public\\OpenAICallCompletions.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\Public\\OpenAICallDALLE.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\Public\\OpenAICallTranscriptions.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\Public\\OpenAIDefinitions.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\Public\\OpenAIParser.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Plugins\\OpenAIAPI\\Source\\OpenAIAPI\\Public\\OpenAIUtils.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\OpenAIAPI.84.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
 		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\AbilitySystem\\Abilities\\Dash\\GA_Dash.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.40.33807\\bin\\Hostx64\\x64\\cl.exe",
