@@ -16,6 +16,7 @@
 #include "Blueprint/UserWidget.h"
 #include "GameplayTagAssetInterface.h"
 #include "GameplayEffectTypes.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 #include "MPlayerCharacter.generated.h"
 
@@ -65,62 +66,62 @@ class MACHINAAUTOMADUM_API AMPlayerCharacter : public ACharacter, public IAbilit
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction *DashAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *DoubleJumpAction;
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	//UInputAction *DoubleJumpAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *MenuAction;
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	//UInputAction *MenuAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *InteractAction;
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	//UInputAction *InteractAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *Ability1Action;
+	//UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	// UInputAction *Ability1Action;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *Ability2Action;
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	// UInputAction *Ability2Action;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *UltimateAction;
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	// UInputAction *UltimateAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *PrimaryAttackAction;
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	// UInputAction *PrimaryAttackAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *DeselectTargetAction;
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	// UInputAction *DeselectTargetAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *LockOnTargetAction;
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	// UInputAction *LockOnTargetAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *BlockAction;
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	// UInputAction *BlockAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *LiftOffAction;
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	// UInputAction *LiftOffAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *RangeMeleeSwitchAction;
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	// UInputAction *RangeMeleeSwitchAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *PokeAction;
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	// UInputAction *PokeAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *ResetCameraAction;
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	// UInputAction *ResetCameraAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *SwitchCharacterAction;
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	// UInputAction *SwitchCharacterAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *TauntAction;
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	// UInputAction *TauntAction;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-	UInputAction *ClimbAction;
+	// UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	// UInputAction *ClimbAction;
 
-	UPROPERTY()
-	FTimerHandle DashTimerHandle;
+	// UPROPERTY()
+	// FTimerHandle DashTimerHandle;
 
-	UPROPERTY()
-	FTimerHandle SprintTimerHandle;
+	// UPROPERTY()
+	// FTimerHandle SprintTimerHandle;
 
 
 public:
@@ -181,38 +182,38 @@ public:
 protected:
 	// Called when the game starts or when spawned
 
-	/** Called for movement input */
-	void Move(const FInputActionValue &Value);
+	// /** Called for movement input */
+	 void Move(const FInputActionValue &Value);
 
-	/** Called for looking input */
-	void Look(const FInputActionValue &Value);
+	// /** Called for looking input */
+	 void Look(const FInputActionValue &Value);
 
-	/** Called for dashing input */
-	void Dash();
+	// /** Called for dashing input */
+	 void Dash();
 
-	void StopDashing();
+	 void StopDashing();
 
-	/** Called for sprint input */
-	void Sprint();
-	void StopSprinting();
+	// /** Called for sprint input */
+	 void Sprint();
+	 void StopSprinting();
 
-	/** Called for menu input */
-	void OpenCloseMenu();
+	// /** Called for menu input */
+	 void OpenCloseMenu();
 
-	/** Called for interacting input */
-	void Interact(const FInputActionValue &Value);
+	// /** Called for interacting input */
+	 void Interact(const FInputActionValue &Value);
 
-	/** Called for double jump input */
-	void Jump();
-	void StopJumping();
+	// /** Called for double jump input */
+	 void Jump();
+	 void StopJumping();
 
-	void Landed(const FHitResult &Hit);
+	 void Landed(const FHitResult &Hit);
 
-	void StartClimb();
-	void StopClimb();
+	 //void StartClimb();
+	//void StopClimb();
 
-	bool LineTrace(FHitResult &Hit, float Distance);
-	bool WallLineTrace(FHitResult &Hit);
+	// bool LineTrace(FHitResult &Hit, float Distance);
+	// bool WallLineTrace(FHitResult &Hit);
 
 
 

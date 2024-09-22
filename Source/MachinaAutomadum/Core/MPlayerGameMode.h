@@ -26,11 +26,7 @@ class MACHINAAUTOMADUM_API AMPlayerGameMode : public AGameModeBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character Reference")
 	AMPlayerCharacter* Player;
 
-	UFUNCTION(BlueprintCallable, Category = "Save_System")
-	void UpdatePlayerStartingPoint(FVector NewStartPoint);
-
-	UFUNCTION(BlueprintCallable, Category = "Character")
-	AMPlayerCharacter* DetermineCharacterClass(FVector TransFormLocation);
+	
 
 
 

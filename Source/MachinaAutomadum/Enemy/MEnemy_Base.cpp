@@ -56,12 +56,7 @@ AMEnemy_Base::AMEnemy_Base()
 	UIFloatingStatusBarComponent->SetDrawSize(FVector2D(25.0f, 25.0f));
 
 	
-	UIFloatingStatusBarClass = StaticLoadClass(UObject::StaticClass(), nullptr, TEXT("/Game/MachinaAutomadum/Renders/Widgets/W_FloatingStatusBar.W_FloatingStatusBar_C"));
-	if (!UIFloatingStatusBarClass)
-	{
-		UE_LOG(LogTemp, Error, TEXT("%s() Failed to find UIFloatingStatusBarClass. If it was moved, please update the reference location in C++."), *FString(__FUNCTION__));
-	}
-
+	
 
 
 }

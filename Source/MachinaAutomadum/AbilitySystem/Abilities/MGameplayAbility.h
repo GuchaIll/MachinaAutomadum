@@ -121,7 +121,18 @@ class MACHINAAUTOMADUM_API UMGameplayAbility : public UGameplayAbility
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ability System")
 	EMAbilityActivationGroup ActivationGroup;
+	
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Ability System")
+	float EnergyCost;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Ability System")
+    TSubclassOf<class UGameplayEffect> EnergyCostEffect;
+
+	UFUNCTION(BlueprintCallable, Category = "Ability System")
+	bool TryConsumingEnergy(float EnergyToConsume);
+
+	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData);
 	//TODO: Add ability costs
 
 	//TODO: Add custom active camera mode

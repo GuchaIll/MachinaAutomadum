@@ -120,11 +120,7 @@ AMPlayerCharacter::AMPlayerCharacter()
 	//PlayerHUDComponent->SetWidgetSpace(EWidgetSpace::Screen);
 	//PlayerHUDComponent->SetDrawSize(FVector2D(25.0f, 25.0f));
 
-	PlayerHUDWidgetClass = StaticLoadClass(UObject::StaticClass(), nullptr, TEXT("/Game/MachinaAutomadum/Renders/Widgets/W_PlayerHUDWidget.W_PlayerHUDWidget_CT"));
-	if (!PlayerHUDWidgetClass)
-	{
-		UE_LOG(LogTemp, Error, TEXT("%s() Failed to find PlauerHUD. If it was moved, please update the reference location in C++."), *FString(__FUNCTION__));
-	}
+	
 
 	TeamManager = CreateDefaultSubobject<UMTeamManager>(TEXT("TeamManager"));
 	if(TeamManager) TeamManager->CurrentCharacter = this;
@@ -215,10 +211,10 @@ void AMPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &AMPlayerCharacter::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &AMPlayerCharacter::StopJumping);
        
-	   EnhancedInputComponent->BindAction(ClimbAction, ETriggerEvent::Started, this, &AMPlayerCharacter::StartClimb);
-	   EnhancedInputComponent->BindAction(ClimbAction, ETriggerEvent::Completed, this, &AMPlayerCharacter::StopClimb);
+	   //EnhancedInputComponent->BindAction(ClimbAction, ETriggerEvent::Started, this, &AMPlayerCharacter::StartClimb);
+	   //EnhancedInputComponent->BindAction(ClimbAction, ETriggerEvent::Completed, this, &AMPlayerCharacter::StopClimb);
 
-		// Moving
+		//Moving
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMPlayerCharacter::Move);
 
 		// Looking
@@ -230,12 +226,17 @@ void AMPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 		BindInputToAbilities(EnhancedInputComponent);
 	}
-	else
-	{
+	//else
+	//{
 		
-	}
+	//}
 
 	
+}
+
+void AMPlayerCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 }
 
 void AMPlayerCharacter::SwitchToCombatContext()
@@ -265,231 +266,232 @@ void AMPlayerCharacter::SwitchToRoamingContext()
     }
 }
 
-void AMPlayerCharacter::OpenCloseMenu()
-{
+// void AMPlayerCharacter::OpenCloseMenu()
+// {
 
-}
+// }
 
-void AMPlayerCharacter::Interact(const FInputActionValue &Value)
-{
+ void AMPlayerCharacter::Interact(const FInputActionValue &Value)
+ {
 
-}
+ }
 
-void AMPlayerCharacter::Move(const FInputActionValue& Value)
-{
-	// input is a Vector2D
-	FVector2D MovementVector = Value.Get<FVector2D>();
+ void AMPlayerCharacter::Move(const FInputActionValue& Value)
+ {
+// 	// input is a Vector2D
+// 	FVector2D MovementVector = Value.Get<FVector2D>();
 
-	if (Controller != nullptr)
-	{
-		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
+// 	if (Controller != nullptr)
+// 	{
+// 		// find out which way is forward
+// 		const FRotator Rotation = Controller->GetControlRotation();
+// 		const FRotator YawRotation(0, Rotation.Yaw, 0);
 
-		// get forward vector
-		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+// 		// get forward vector
+// 		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 	
-		// get right vector 
-		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+// 		// get right vector 
+// 		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 
-		// add movement 
-		if(!bIsClimbing)
-		{
-			AddMovementInput(ForwardDirection, MovementVector.Y);
-			AddMovementInput(RightDirection, MovementVector.X);
-		}
-		else{
-			//Climbing
-			FVector UpVector = GetActorUpVector();
-			const FVector UpDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Z);
-			UpVector.Z = UpDirection.Z;
-			const FVector SlideDirection = GetActorRightVector();
-			AddMovementInput(UpDirection, MovementVector.Y);
-			AddMovementInput(SlideDirection, MovementVector.X);
-		}
+// 		// add movement 
+// 		if(!bIsClimbing)
+// 		{
+// 			AddMovementInput(ForwardDirection, MovementVector.Y);
+// 			AddMovementInput(RightDirection, MovementVector.X);
+// 		}
+// 		else{
+// 			//Climbing
+// 			FVector UpVector = GetActorUpVector();
+// 			const FVector UpDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Z);
+// 			UpVector.Z = UpDirection.Z;
+// 			const FVector SlideDirection = GetActorRightVector();
+// 			AddMovementInput(UpDirection, MovementVector.Y);
+// 			AddMovementInput(SlideDirection, MovementVector.X);
+// 		}
 
-		InputDirection = FVector(MovementVector.Y, MovementVector.X, 0.0f);
+// 		InputDirection = FVector(MovementVector.Y, MovementVector.X, 0.0f);
 		
-	}
-}
+// 	}
+ }
 
-void AMPlayerCharacter::Look(const FInputActionValue& Value)
-{
-	// input is a Vector2D
-	FVector2D LookAxisVector = Value.Get<FVector2D>();
+ void AMPlayerCharacter::Look(const FInputActionValue& Value)
+ {
+// 	// input is a Vector2D
+// 	FVector2D LookAxisVector = Value.Get<FVector2D>();
 
-	if (Controller != nullptr)
-	{
-		// add yaw and pitch input to controller
-		AddControllerYawInput(LookAxisVector.X);
-		AddControllerPitchInput(LookAxisVector.Y);
-	}
-}
+// 	if (Controller != nullptr)
+// 	{
+// 		// add yaw and pitch input to controller
+// 		AddControllerYawInput(LookAxisVector.X);
+// 		AddControllerPitchInput(LookAxisVector.Y);
+// 	}
+ }
 
-void AMPlayerCharacter::Sprint()
-{
-	if(!bIsSprinting)
-	{
-		bIsSprinting = true;
-		GetCharacterMovement()->MaxWalkSpeed = 1000.f;
-		GetWorldTimerManager().SetTimer(SprintTimerHandle, this, &AMPlayerCharacter::StopSprinting, 2.0f, false);
-	}
-}
+ void AMPlayerCharacter::Sprint()
+ {
+// 	if(!bIsSprinting)
+// 	{
+// 		bIsSprinting = true;
+// 		GetCharacterMovement()->MaxWalkSpeed = 1000.f;
+// 		GetWorldTimerManager().SetTimer(SprintTimerHandle, this, &AMPlayerCharacter::StopSprinting, 2.0f, false);
+// 	}
+ }
 
-void AMPlayerCharacter::StopSprinting()
-{
-	bIsSprinting = false;
-	GetCharacterMovement()->MaxWalkSpeed = 500.f;
-}
+ void AMPlayerCharacter::StopSprinting()
+ {
+// 	bIsSprinting = false;
+// 	GetCharacterMovement()->MaxWalkSpeed = 500.f;
+ }
 
-void AMPlayerCharacter::Dash()
-{
-	//if(!bIsDashing)
-	//{
+ void AMPlayerCharacter::Dash()
+ {
+// 	//if(!bIsDashing)
+// 	//{
 	
-	//	bIsDashing = true;
-	//	//Calculate the dash offset
-		//FVector DashOffset = GetActorForwardVector() * DashDistance;
-//
-	//	AddActorWorldOffset(DashOffset, true, nullptr, ETeleportType::TeleportPhysics);
+// 	//	bIsDashing = true;
+// 	//	//Calculate the dash offset
+// 		//FVector DashOffset = GetActorForwardVector() * DashDistance;
+// //
+// 	//	AddActorWorldOffset(DashOffset, true, nullptr, ETeleportType::TeleportPhysics);
 
-	//	GetWorldTimerManager().SetTimer(DashTimerHandle, this, &AMPlayerCharacter::StopDashing, 1.0f, false);
+// 	//	GetWorldTimerManager().SetTimer(DashTimerHandle, this, &AMPlayerCharacter::StopDashing, 1.0f, false);
 		
-	//}
-}
+// 	//}
+ }
 
-void AMPlayerCharacter::StopDashing()
-{
-	//bIsDashing = false;
-	//GetCharacterMovement()->MaxWalkSpeed = 500.f;
-}
+ void AMPlayerCharacter::StopDashing()
+ {
+// 	//bIsDashing = false;
+// 	//GetCharacterMovement()->MaxWalkSpeed = 500.f;
+ }
 
-void AMPlayerCharacter::Jump()
-{
-	//if (GetCharacterMovement()->IsFalling() == false || JumpCount < MaxJumpCount)
-	//{
+ void AMPlayerCharacter::Jump()
+ {
+// 	//if (GetCharacterMovement()->IsFalling() == false || JumpCount < MaxJumpCount)
+// 	//{
 		
-		//Super::Jump();
-		 // Calculate the jump velocity
+// 		//Super::Jump();
+// 		 // Calculate the jump velocity
 
-		//FVector Velocity = GetVelocity();
-		//Velocity.Z = 0;
-		//GetCharacterMovement()->Velocity = Velocity;
+// 		//FVector Velocity = GetVelocity();
+// 		//Velocity.Z = 0;
+// 		//GetCharacterMovement()->Velocity = Velocity;
 
-        //FVector JumpVelocity = FVector(0, 0, GetCharacterMovement()->JumpZVelocity);
+//         //FVector JumpVelocity = FVector(0, 0, GetCharacterMovement()->JumpZVelocity);
         
-        // Launch the character into the air
-       // LaunchCharacter(JumpVelocity, false, false);
+//         // Launch the character into the air
+//        // LaunchCharacter(JumpVelocity, false, false);
 
-		//JumpCount++;
-	//}
-}
+// 		//JumpCount++;
+// 	//}
+ }
 
-//keep
-void AMPlayerCharacter::StopJumping() //double jump bug please fix
-{
-	Super::StopJumping();
+// //keep
+ void AMPlayerCharacter::StopJumping() //double jump bug please fix
+ {
+ 	Super::StopJumping();
 
-}
+ }
 
-void AMPlayerCharacter::Landed(const FHitResult& Hit)
-{
-	Super::Landed(Hit);
-	JumpCount = 0;
-}
+ void AMPlayerCharacter::Landed(const FHitResult& Hit)
+ {
+ 	Super::Landed(Hit);
+// 	JumpCount = 0;
+ }
 
 
-void AMPlayerCharacter::StartClimb()
-{
-	FHitResult Hit;
+ //void AMPlayerCharacter::StartClimb()
+// {
+// 	FHitResult Hit;
 
-    bool bHit = WallLineTrace(Hit);
-	if (!bIsClimbing && bHit )
-	{
+//     bool bHit = WallLineTrace(Hit);
+// 	if (!bIsClimbing && bHit )
+// 	{
 		
 	   
-		bIsClimbing = true;
-		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Flying);
-		GetCharacterMovement()->bOrientRotationToMovement = false;
-        FRotator NormalDirection = Hit.Normal.Rotation();
-		NormalDirection.Yaw += 180.0f;
+// 		bIsClimbing = true;
+// 		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Flying);
+// 		GetCharacterMovement()->bOrientRotationToMovement = false;
+//         FRotator NormalDirection = Hit.Normal.Rotation();
+// 		NormalDirection.Yaw += 180.0f;
 
-		FRotator CurrentRotation = GetActorRotation();
-		CurrentRotation.Yaw = NormalDirection.Yaw;
+// 		FRotator CurrentRotation = GetActorRotation();
+// 		CurrentRotation.Yaw = NormalDirection.Yaw;
 
-		SetActorRotation(NormalDirection);
+// 		SetActorRotation(NormalDirection);
 		
 
-	}
-	else if(!bHit){
-		StopClimb();
-	}
+ //	}
+ //	else if(!bHit){
+// 		StopClimb();
+ //	}
 
-}
+ //}
 
-void AMPlayerCharacter::StopClimb()
-{
+// void AMPlayerCharacter::StopClimb()
+// {
 	
-		bIsClimbing = false;
-		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Falling);
-		GetCharacterMovement()->bOrientRotationToMovement = true;
+// 		bIsClimbing = false;
+// 		GetCharacterMovement()->SetMovementMode(EMovementMode::MOVE_Falling);
+// 		GetCharacterMovement()->bOrientRotationToMovement = true;
 	
-}
+// }
 
 
 
-bool AMPlayerCharacter::LineTrace(FHitResult& Hit, float Distance)
-{
-	FVector Start = GetActorLocation();
-	FVector End = Start + GetActorForwardVector() * Distance;
+// bool AMPlayerCharacter::LineTrace(FHitResult& Hit, float Distance)
+// {
+// 	FVector Start = GetActorLocation();
+// 	FVector End = Start + GetActorForwardVector() * Distance;
 
-	FCollisionQueryParams CollisionParams;
-	CollisionParams.AddIgnoredActor(this);
+// 	FCollisionQueryParams CollisionParams;
+// 	CollisionParams.AddIgnoredActor(this);
 
-	bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, CollisionParams);
+// 	bool bHit = GetWorld()->LineTraceSingleByChannel(Hit, Start, End, ECC_Visibility, CollisionParams);
 	
-	FColor TraceColor = bHit ? FColor::Green : FColor::Red;
+// 	FColor TraceColor = bHit ? FColor::Green : FColor::Red;
 
-	if(GetWorld() == nullptr)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("World is null"));
-	}
+// 	if(GetWorld() == nullptr)
+// 	{
+// 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("World is null"));
+// 	}
 
-	DrawDebugLine(GetWorld(), Start, End, TraceColor, true, 1000.f, 5.0f);
+// 	DrawDebugLine(GetWorld(), Start, End, TraceColor, true, 1000.f, 5.0f);
 
-	return bHit;
-}
+// 	return bHit;
+// }
 
-bool AMPlayerCharacter::WallLineTrace(FHitResult& Hit)
-{
-	return LineTrace(Hit, WallLineTraceDistance);
+// bool AMPlayerCharacter::WallLineTrace(FHitResult& Hit)
+// {
+// 	return LineTrace(Hit, WallLineTraceDistance);
 
-}
+// }
 
-void AMPlayerCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
+// void AMPlayerCharacter::Tick(float DeltaTime)
+// {
+// 	Super::Tick(DeltaTime);
     
-	FHitResult Hit;
+// 	FHitResult Hit;
     
-	FocusTarget();
+// 	FocusTarget();
 
-	//Updating climbing rotation to face the wall
-	if (bIsClimbing && WallLineTrace(Hit))
-	{
-		FRotator NormalDirection = Hit.Normal.Rotation();
-		NormalDirection.Yaw += 180.0f;
+// 	//Updating climbing rotation to face the wall
+// 	if (bIsClimbing && WallLineTrace(Hit))
+// 	{
+// 		FRotator NormalDirection = Hit.Normal.Rotation();
+// 		NormalDirection.Yaw += 180.0f;
 
-		FRotator CurrentRotation = GetActorRotation();
-		CurrentRotation.Yaw = NormalDirection.Yaw;
+// 		FRotator CurrentRotation = GetActorRotation();
+// 		CurrentRotation.Yaw = NormalDirection.Yaw;
 
-		SetActorRotation(NormalDirection);
-	}
-	else if(bIsClimbing){
-		StopClimb();
-	}
+// 		SetActorRotation(NormalDirection);
+// 	}
+// 	else if(bIsClimbing){
+// 		StopClimb();
+// 	}
 	
-}
+// }
+
 
 UAbilitySystemComponent* AMPlayerCharacter::GetAbilitySystemComponent() const
 {
@@ -894,6 +896,17 @@ void AMPlayerCharacter::OnMaxHealthChanged(const FOnAttributeChangeData & Data)
 
 void AMPlayerCharacter::OnEnergyChanged(const FOnAttributeChangeData & Data)
 {
+	 if (GEngine)
+    {
+        FString LocalCharacterName = GetName();
+        FString AttributeName = Data.Attribute.GetName();
+        float NewValue = Data.NewValue;
+        float OldValue = Data.OldValue;
+
+        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("OnEnergyChanged called on %s"), *LocalCharacterName));
+        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Attribute: %s, Old Value: %f, New Value: %f"), *AttributeName, OldValue, NewValue));
+    }
+
 	float Energy = Data.NewValue;
 	EnergyChanged(Data.NewValue, Data.OldValue, AttributeSet->GetMaxEnergy());
 	if(PlayerHUD) PlayerHUD->SetEnergy(Energy, AttributeSet->GetMaxEnergy());
