@@ -3,6 +3,7 @@
 
 #include "MGameplayAbility.h"
 #include "AbilitySystemComponent.h"
+#include "../Attributes/MAttributeSet.h"
 #include "../MAbilitySystemComponent.h"
 
 UMGameplayAbility::UMGameplayAbility(const FObjectInitializer& ObjectInitializer)
@@ -18,6 +19,8 @@ UMGameplayAbility::UMGameplayAbility(const FObjectInitializer& ObjectInitializer
 	ActivationBlockedTags.AddTag(FGameplayTag::RequestGameplayTag(FName("State.Debuff.Stun")));
 
     EnergyCost = 0.0f;
+
+   
 
 }
 
@@ -71,50 +74,41 @@ bool UMGameplayAbility::TryConsumingEnergy(float EnergyToConsume)
         }
         return false;
 
+        
+    }
+
+    const UMAttributeSet* AttributeSet = ASC->GetSet<UMAttributeSet>();
+    if(!AttributeSet || AttributeSet->GetEnergy() < EnergyCost)
+    {
         return false;
     }
 
       FGameplayEffectSpecHandle SpecHandle = ASC->MakeOutgoingSpec(EnergyCostEffect, 1.0f, ASC->MakeEffectContext());
         if (!SpecHandle.IsValid())
-    {
+        {
         if (GEngine)
         {
             GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("SpecHandle is invalid"));
         }
         return false;
-    }
+        }
     
-    if (SpecHandle.IsValid())
-    {
+    
         // Set the energy cost value
         SpecHandle.Data->SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("Data.EnergyCost")), EnergyToConsume); // Example value
 
         FActiveGameplayEffectHandle GEHandle = ASC->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
-        if (!GEHandle.IsValid())
-    {
-        if (GEngine)
-        {
-            GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("GEHandle is invalid"));
-        }
-        return false;
-    }
-        
-        return GEHandle.IsValid();
-    }
+       
 
-    return false;
+        return true;
      
 }
 
 void UMGameplayAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData)
 {
 
-      if (GEngine)
-        {
-            FString AbilityName = GetName();
-            GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString::Printf(TEXT("Name: %s"), *AbilityName));
-        }
-
+     
+    
     if (EnergyCost != 0.0f && EnergyCostEffect)
     {
         // Call the parent class's ActivateAbility function
