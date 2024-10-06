@@ -132,6 +132,8 @@ class MACHINAAUTOMADUM_API UMGameplayAbility : public UGameplayAbility
 	UFUNCTION(BlueprintCallable, Category = "Ability System")
 	bool TryConsumingEnergy(float EnergyToConsume);
 
+	
+
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData);
 	//TODO: Add ability costs
 
