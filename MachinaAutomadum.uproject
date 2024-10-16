@@ -108,6 +108,14 @@
 		{
 			"Name": "OpenAIAPI",
 			"Enabled": true
+		},
+		{
+			"Name": "USDImporter",
+			"Enabled": true
+		},
+		{
+			"Name": "OSC",
+			"Enabled": true
 		}
 	]
 }
