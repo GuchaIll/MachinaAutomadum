@@ -656,6 +656,54 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
 	},
 	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\MemorySystem\\FileExplorerManager.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\MemorySystem\\FileExplorerManager.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\MemorySystem\\JFile.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\MemorySystem\\JFile.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\MemorySystem\\JFolder.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\MemorySystem\\JFolder.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\.vscode\\compileCommands_Default\\MachinaAutomadum.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
 		"file": "C:\\Users\\gucha\\Documents\\Unreal Projects\\MachinaAutomadum\\Source\\MachinaAutomadum\\Renders\\DamageTextRenderComponent.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.41.34120\\bin\\Hostx64\\x64\\cl.exe",
