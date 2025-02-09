@@ -122,6 +122,12 @@ class MACHINAAUTOMADUM_API UJFile : public UObject
         UFUNCTION(BlueprintCallable, Category = "File")
         void HandleFileType();
 
+		UFUNCTION(BlueprintImplementable, Category = "File")
+		bool OpenFile();
+
+		
+
+
 		
 	
 };

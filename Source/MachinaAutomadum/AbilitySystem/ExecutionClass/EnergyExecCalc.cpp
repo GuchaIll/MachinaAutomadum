@@ -42,6 +42,9 @@ void UEnergyExecCalc::Execute_Implementation(const FGameplayEffectCustomExecutio
     float Energy = 0.0f;
     ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetEnergyCapture().EnergyDef, FAggregatorEvaluateParameters(), Energy);
 
+    float MaxEnergy = 0.0f;
+    ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetEnergyCapture().MaxEnergyDef, FAggregatorEvaluateParameters(), MaxEnergy);
+
     // Calculate the energy cost (this could be based on the spec or other logic)
     float EnergyCost = Spec.GetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("Data.EnergyCost")), false, -1.0f);
 
@@ -49,5 +52,12 @@ void UEnergyExecCalc::Execute_Implementation(const FGameplayEffectCustomExecutio
     {
         // Apply the energy cost
         OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(GetEnergyCapture().EnergyProperty, EGameplayModOp::Additive, -EnergyCost));
+    }
+    else if(EnergyCost < 0.0f)
+    {
+        EnergyCost = FMath::Abs(EnergyCost);
+        EnergyCost = FMath::Clamp( Energy + EnergyCost, 0.0f, MaxEnergy);
+        // Apply the energy cost
+        OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(GetEnergyCapture().EnergyProperty, EGameplayModOp::Override, EnergyCost));
     }
 }

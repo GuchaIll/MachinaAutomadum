@@ -3,7 +3,6 @@
 
 #include "JFile.h"
 #include "JFolder.h"
-#include "MediaAssets/Public/MediaSource.h"
 #include "Engine/Texture2D.h"
 #include "Sound/SoundWave.h"
 #include "UObject/ConstructorHelpers.h"
@@ -16,6 +15,9 @@ UJFile::UJFile()
     ParentFolder = nullptr;
     FilePath = TEXT("");
     Content = TEXT("");
+
+    SolveFilePath();
+    //LoadFile(FilePath);
 }
 
 bool UJFile::LoadFile(const FString& Path)
@@ -55,14 +57,15 @@ bool UJFile::SaveFile(const FString& Path)
 void UJFile::SolveFilePath()
 {
     int i = 0;
-    JFolder* CurrFolder = ParentFolder;
-    while(i < 100 && CurrFolder.Name != TEXT("Root"))
+    UJFolder* CurrFolder = ParentFolder;
+    while(i < 100 && CurrFolder->GetName() != TEXT("Root"))
     {
-        FilePath = CurrFolder.Path + TEXT("/") + FilePath;
-        CurrFolder = CurrFolder.ParentFolder;
+       FilePath = CurrFolder->GetPath() + TEXT("/") + FilePath;
+       CurrFolder = CurrFolder->GetParentFolder();
         i++;
 
     }
+    FString DiskRootPath = FPaths::ProjectDir();
     FilePath = DiskRootPath + TEXT("Content/Root/") + FilePath;
     if(GEngine)
     {
@@ -80,23 +83,23 @@ void UJFile::HandleFileType()
         UObject* LoadedAsset = StaticLoadObject(UObject::StaticClass(), nullptr, *FilePath);
         if (LoadedAsset)
         {
-            if (LoadedAsset->IsA(UTexture2D::StaticClass()))
-            {
-                Type = EFileType::FT_Texture;
-            }
-            else if (LoadedAsset->IsA(UMediaSource::StaticClass()))
-            {
-                Type = EFileType::FT_Media;
+            //if (LoadedAsset->IsA(UTexture2D::StaticClass()))
+            //{
+                //Type = EFileType::FT_Image;
+            //}
+            //else if (LoadedAsset->IsA(UMediaSource::StaticClass()))
+           // {
+            //    Type = EFileType::FT_Media;
             // Add more asset types as needed
-            }
-            else if(LoadAsset->IsA(USoundWave::StaticClass()))
-            {
-                Type = EFileType::FT_Sound;
-            }
-            else
-            {
-                Type = EFileType::FT_Asset;
-            }
+            //}
+            //else if(LoadAsset->IsA(USoundWave::StaticClass()))
+           // {
+              //  Type = EFileType::FT_Sound;
+           // }
+           //else
+           // {
+              // Type = EFileType::FT_Asset;
+            //}
     }
 }
 }

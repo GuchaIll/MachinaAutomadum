@@ -866,15 +866,15 @@ void AMPlayerCharacter::OnHealthChanged(const FOnAttributeChangeData & Data)
 {
 
 	float Health = Data.NewValue;
-	if(GEngine) GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Red, TEXT("UpdateHealth"));
+	//if(GEngine) GEngine->AddOnScreenDebugMessage(1, 5.f, FColor::Red, TEXT("UpdateHealth"));
 
 	HealthChanged(Data.NewValue, Data.OldValue, AttributeSet->GetMaxHealth());
 	if(PlayerHUD)
 	{ PlayerHUD->SetHealth(Health, AttributeSet->GetMaxHealth());
-		if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("UpdateHUD"));
+		//if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("UpdateHUD"));
 	}
 	else{
-		if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("CannotUodateHUD"));
+		//if(GEngine) GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("CannotUodateHUD"));
 	}
 
 
@@ -896,16 +896,12 @@ void AMPlayerCharacter::OnMaxHealthChanged(const FOnAttributeChangeData & Data)
 
 void AMPlayerCharacter::OnEnergyChanged(const FOnAttributeChangeData & Data)
 {
-	 if (GEngine)
-    {
+	 
         FString LocalCharacterName = GetName();
         FString AttributeName = Data.Attribute.GetName();
         float NewValue = Data.NewValue;
         float OldValue = Data.OldValue;
 
-        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("OnEnergyChanged called on %s"), *LocalCharacterName));
-        GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Attribute: %s, Old Value: %f, New Value: %f"), *AttributeName, OldValue, NewValue));
-    }
 
 	float Energy = Data.NewValue;
 	EnergyChanged(Data.NewValue, Data.OldValue, AttributeSet->GetMaxEnergy());
